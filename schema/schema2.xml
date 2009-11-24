@@ -1,0 +1,144 @@
+<schema>
+
+	<pattern id="Built">
+		Something that is built or manufactured
+		<extend id="PhysicalThing"/>
+		<string id="builder" name="Builder Name"/>
+		<string id="serialID" name="Serial Number"/>
+		<timepoint id="builtWhen" name="When Built"/>
+	</pattern>
+	
+	<pattern id="Owned">
+		Something that is or can be owned, and possibly change ownership
+		<node id="owner" class="Agent"/>
+		<node id="ownerNext" name="Next Owner" class="Agent"/>
+	</pattern>
+
+	<pattern id="Rented">
+		Something that is or can be rented/loaned/leased/borrowed
+		<node id="renter" class="Agent"/>
+		<node id="renterNext" name="Next Renter" class="Agent"/>
+		<real id="dailyCost" name="Daily Cost" unit="currency"/>
+	</pattern>
+	
+	<pattern id="Located">
+		Something that has a specific location
+		<geopoint id="location"/>
+	</pattern>
+
+	<pattern id="Mobile">
+		Something that has a specific location, and a possible next location
+		<extend id="Located"/>
+		<geopoint id="locationNext" name="Next Location"/>		
+	</pattern>
+
+	<pattern id="Event">
+		<extend id="Located"/>
+		<timepoint id="startTime" name="Start Time"/>
+		<timepoint id="endTime" name="End Time"/>
+	</pattern>
+
+	<pattern id="PhysicalThing" name="Physical Thing">
+		
+		<string id="color" maxMult="-1">
+			Predominant exterior color
+		</string>
+		
+		<string id="material" maxMult="-1">
+			Predominant exterior material
+		</string>
+		
+		<string id="condition" maxMult="1">
+			Old or new
+			<values>old, new</values>
+		</string>
+		
+		<real id="mass" unit="mass"/>
+		<real id="length" unit="distance"/>
+		<real id="width" unit="distance"/>
+		<real id="height" unit="distance"/>
+		
+	</pattern>
+
+	<pattern id="Built">
+		Something that is built or manufactured
+		<extend id="PhysicalThing"/>
+		<string id="builder" name="Builder Name"/>
+		<string id="serialID" name="Serial Number"/>
+		<timepoint id="builtWhen" name="When Built"/>		
+	</pattern>
+
+	<pattern id="Being">
+		Life form
+		<extend id="Located"/>
+		<extend id="Built"/>
+	</pattern>
+
+	<pattern id="Agent">
+	</pattern>
+
+	<pattern id="Human">
+		Human being
+		<extend id="Being"/>
+		<extend id="Agent"/>
+		<string id="firstName" name="First Name"/>
+		<string id="lastName" name="Last Name"/>
+		<string id="biography"/> <!-- richtext -->
+	</pattern>
+
+	<pattern id="Bicycle">
+		<extend id="Built"/>
+		<extend id="Mobile"/>
+		<extend id="Owned"/>
+		<int id="gearCount" name="Gear Count"/>
+		<real id="wheelDiameter" name="Wheel Diameter" unit="distance"/>
+		<string id="bicycleType" name="Bicycle Type">
+			[ 'mountain',
+       			"street",
+       			"hybrid",
+       			"tricycle",
+       			"unicycle",
+       			"tandem",
+       			"recumbent"
+       		]);		
+		</string>		
+	</pattern>
+
+
+	<pattern id="Dwelling">
+		<extend id="Located"/>
+		<int id="numBedrooms" name="Number of Bedrooms"/>
+	</pattern>
+	
+	<pattern id="Guitar"/>
+
+	<pattern id="testReal" name="_Real Test">
+		<real id="rn1"/>
+		<real id="rn2"/>
+		<real id="rn3"/>
+		<real id="rn4"/>
+	</pattern>
+	
+	<pattern id="testString" name="_String Test">
+		<string id="s1"/>
+		<string id="s2"/>
+		<string id="s3"/>
+		<string id="s4"/>
+	</pattern>
+	
+	<pattern id="testInteger" name="_Integer Test">
+		<int id="i1"/>
+		<int id="i2"/>
+		<int id="i3"/>
+		<int id="i4"/>
+	</pattern>
+	
+	<pattern id="testNode" name="_Node Test">
+		<node id="n1"/>
+		<node id="n2"/>
+		<node id="n3"/>
+		<node id="n4"/>
+	</pattern>
+
+	
+</schema>
