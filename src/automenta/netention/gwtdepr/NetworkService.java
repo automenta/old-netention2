@@ -10,18 +10,13 @@ import automenta.netention.gwtdepr.data.NodeData;
 import automenta.netention.gwtdepr.data.PatternData;
 import automenta.netention.gwtdepr.data.PatternDataEx;
 import automenta.netention.gwtdepr.data.DetailLinkData;
-import automenta.netention.server.value.Property;
+import automenta.netention.api.value.Property;
 
-import com.google.gwt.user.client.rpc.RemoteService;
-import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 /**
  * The client side stub for the RPC service.
  */
-@RemoteServiceRelativePath("net")
-public interface NetworkService extends RemoteService {
-
-	String greetServer(String name);
+public interface NetworkService  {
 
 	List<PatternData> getPatterns(String rootPatternID);
 

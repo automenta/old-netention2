@@ -1,9 +1,9 @@
 package automenta.netention.gwtdepr.ui.detail.property;
 
-import automenta.netention.server.value.Value;
-import automenta.netention.server.value.node.NodeEquals;
-import automenta.netention.server.value.node.NodeIs;
-import automenta.netention.server.value.node.NodeNotEquals;
+import automenta.netention.api.value.Value;
+import automenta.netention.api.value.node.NodeEquals;
+import automenta.netention.api.value.node.NodeIs;
+import automenta.netention.api.value.node.NodeNotEquals;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;

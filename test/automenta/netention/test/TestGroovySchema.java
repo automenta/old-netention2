@@ -3,10 +3,10 @@ package automenta.netention.test;
 import java.net.URI;
 
 import junit.framework.TestCase;
-import automenta.netention.server.Agent;
-import automenta.netention.server.NetworkBuilder;
-import automenta.netention.server.Pattern;
-import automenta.netention.server.impl.DefaultNetwork;
+import automenta.netention.serverdepr.Agent;
+import automenta.netention.api.NetworkBuilder;
+import automenta.netention.api.Pattern;
+import automenta.netention.serverdepr.impl.DefaultNetwork;
 
 public class TestGroovySchema extends TestCase {
 

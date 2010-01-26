@@ -2,13 +2,13 @@ package automenta.netention.gwtdepr.ui.detail.property;
 
 import java.util.List;
 
-import automenta.netention.server.value.PropertyValue;
-import automenta.netention.server.value.Value;
-import automenta.netention.server.value.string.StringContains;
-import automenta.netention.server.value.string.StringEquals;
-import automenta.netention.server.value.string.StringIs;
-import automenta.netention.server.value.string.StringNotContains;
-import automenta.netention.server.value.string.StringVar;
+import automenta.netention.api.value.PropertyValue;
+import automenta.netention.api.value.Value;
+import automenta.netention.api.value.string.StringContains;
+import automenta.netention.api.value.string.StringEquals;
+import automenta.netention.api.value.string.StringIs;
+import automenta.netention.api.value.string.StringNotContains;
+import automenta.netention.api.value.string.StringVar;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;

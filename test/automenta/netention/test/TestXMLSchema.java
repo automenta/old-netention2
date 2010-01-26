@@ -1,10 +1,10 @@
 package automenta.netention.test;
 
 
-import automenta.netention.server.Agent;
-import automenta.netention.server.NetworkBuilder;
-import automenta.netention.server.Pattern;
-import automenta.netention.server.impl.DefaultNetwork;
+import automenta.netention.serverdepr.Agent;
+import automenta.netention.api.NetworkBuilder;
+import automenta.netention.api.Pattern;
+import automenta.netention.serverdepr.impl.DefaultNetwork;
 import java.io.File;
 import java.net.URI;
 import junit.framework.TestCase;

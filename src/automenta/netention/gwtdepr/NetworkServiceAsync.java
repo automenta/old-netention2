@@ -10,7 +10,7 @@ import automenta.netention.gwtdepr.data.DetailLinkData;
 import automenta.netention.gwtdepr.data.NodeData;
 import automenta.netention.gwtdepr.data.PatternData;
 import automenta.netention.gwtdepr.data.PatternDataEx;
-import automenta.netention.server.value.Property;
+import automenta.netention.api.value.Property;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 

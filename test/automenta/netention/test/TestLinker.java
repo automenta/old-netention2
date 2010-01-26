@@ -4,8 +4,8 @@ import java.util.Collection;
 
 import junit.framework.TestCase;
 import automenta.netention.example.ExampleNetwork;
-import automenta.netention.server.Agent;
-import automenta.netention.server.Message;
+import automenta.netention.serverdepr.Agent;
+import automenta.netention.serverdepr.Message;
 
 public class TestLinker extends TestCase {
 

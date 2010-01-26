@@ -5,9 +5,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import automenta.netention.gwtdepr.ui.detail.NodeEditPanel;
-import automenta.netention.server.value.Property;
-import automenta.netention.server.value.PropertyValue;
-import automenta.netention.server.value.Value;
+import automenta.netention.api.value.Property;
+import automenta.netention.api.value.PropertyValue;
+import automenta.netention.api.value.Value;
 
 public class DetailData extends NodeData {
 

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import automenta.netention.gwtdepr.data.DetailData;
-import automenta.netention.server.value.PropertyValue;
+import automenta.netention.api.value.PropertyValue;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;

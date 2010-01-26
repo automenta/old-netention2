@@ -2,7 +2,7 @@ package automenta.netention.gwtdepr.data;
 
 import java.util.Map;
 
-import automenta.netention.server.value.Property;
+import automenta.netention.api.value.Property;
 
 /** pattern data, with all its defined properties PropertyData's included */
 public class PatternDataEx extends PatternData {

@@ -3,8 +3,8 @@
  */
 package automenta.netention.gwtdepr.ui.detail.property;
 
-import automenta.netention.server.value.PropertyValue;
-import automenta.netention.server.value.Value;
+import automenta.netention.api.value.PropertyValue;
+import automenta.netention.api.value.Value;
 
 import com.google.gwt.user.client.ui.Panel;
 

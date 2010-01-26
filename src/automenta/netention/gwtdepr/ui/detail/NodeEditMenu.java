@@ -8,9 +8,9 @@ import automenta.netention.gwtdepr.NetworkServiceAsync;
 import automenta.netention.gwtdepr.data.DetailData;
 import automenta.netention.gwtdepr.data.PatternData;
 import automenta.netention.gwtdepr.data.PatternDataEx;
-import automenta.netention.server.value.Property;
-import automenta.netention.server.value.PropertyValue;
-import automenta.netention.server.value.Value;
+import automenta.netention.api.value.Property;
+import automenta.netention.api.value.PropertyValue;
+import automenta.netention.api.value.Value;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
