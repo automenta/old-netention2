@@ -4,8 +4,8 @@
  */
 package automenta.netention.swingui;
 
+import automenta.netention.swingui.pattern.PatternsNode;
 import automenta.netention.api.Agent;
-import automenta.netention.api.Detail;
 import automenta.netention.api.Network;
 import automenta.netention.api.Pattern;
 import automenta.netention.api.Schema;
@@ -52,25 +52,10 @@ public class NetworkPanel extends JPanel {
                 agentRoot.add(new DefaultMutableTreeNode(a));
             }
 
-            DefaultMutableTreeNode schemaRoot = new DefaultMutableTreeNode("Patterns");
+            DefaultMutableTreeNode schemaRoot = new PatternsNode(network);
             root.add(schemaRoot);
-            Schema s = network.getSchema();
-            for (Pattern p : s.getRootPatterns()) {
-                schemaRoot.add(newPatternNode(p));
-            }
 
 
-        }
-
-        public DefaultMutableTreeNode newPatternNode(Pattern p) {
-            DefaultMutableTreeNode x = new DefaultMutableTreeNode(p);
-
-            Schema s = network.getSchema();
-            for (Pattern j : s.getChildren(p)) {
-                x.add(newPatternNode(j));
-            }
-           
-            return x;
         }
 
         public void valueChanged(TreeSelectionEvent e) {

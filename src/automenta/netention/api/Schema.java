@@ -3,6 +3,7 @@ package automenta.netention.api;
 import java.util.Map;
 
 import automenta.netention.api.value.Property;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -92,6 +93,14 @@ public class Schema {
 	}
 
 	public Pattern getPattern(String patternID) { return getPatterns().get(patternID); }
+
+    public List<Pattern> getPatterns(Detail d) {
+        ArrayList<Pattern> al = new ArrayList(d.getPatterns().size());
+        for (String s : d.getPatterns()) {
+            al.add(getPattern(s));
+        }
+        return al;
+    }
 
 
 
