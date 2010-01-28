@@ -9,8 +9,9 @@ import automenta.netention.gwtdepr.data.PatternData;
 import automenta.netention.gwtdepr.data.PatternDataEx;
 import automenta.netention.api.value.Property;
 import java.awt.MenuBar;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
-import javax.swing.JButton;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -34,7 +35,7 @@ abstract public class DetailEditMenu extends JMenuBar {
 
                 JMenu subMenu = new PropertySubMenu(extPattern) {
 
-                    @Override protected void onPatternRemoved(PatternDataEx patternData) {
+                    @Override protected void onPatternRemoved(Pattern patternData) {
                         PropertySubMenu.this.onPatternRemoved(patternData);
                     }
 
@@ -61,12 +62,14 @@ abstract public class DetailEditMenu extends JMenuBar {
                 final Property propData = schema.getProperty(dp);
                 String propName = propData.getName();
 
-                add(new JMenuItem(propName));
-//				add(propName, new Command() {
-//					@Override public void execute() {
-//						onPropertyAdded(propData);
-//					}
-//				});
+                JMenuItem addPattern = new JMenuItem(propName);
+                addPattern.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+						onPropertyAdded(propData);
+                    }
+                });
+                add(addPattern);
+
 
                 itemsAdded++;
             }
@@ -77,18 +80,20 @@ abstract public class DetailEditMenu extends JMenuBar {
                     addSeparator();
                 }
 
-                add(new JMenuItem("Remove " + pattern.getName()));
-//				addItem("Remove " + patternData.getName(), new Command() {
-//					@Override public void execute() {
-//						onPatternRemoved(patternData);
-//					}
-//				});
+                JMenuItem removePattern = new JMenuItem("Remove " + pattern.getName());
+                removePattern.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+						onPatternRemoved(pattern);
+                    }
+                });
+                add(removePattern);
+                
             }
 
 
         }
 
-        abstract protected void onPatternRemoved(PatternDataEx patternData);
+        abstract protected void onPatternRemoved(Pattern patternData);
 
         abstract protected void onPropertyAdded(Property propData);
     }
@@ -103,7 +108,11 @@ abstract public class DetailEditMenu extends JMenuBar {
     protected void refresh() {
         removeAll();
 
-        PatternMenu patternMenu = new PatternMenu(schema, detail);
+        PatternMenu patternMenu = new PatternMenu(schema, detail) {
+            @Override protected void onPatternAdded(Pattern p) {
+                addPattern(p);
+            }
+        };
         add(patternMenu);
 
         for (String pattern : detail.getPatterns()) {
@@ -116,7 +125,7 @@ abstract public class DetailEditMenu extends JMenuBar {
                     addProperty(propData);
                 }
 
-                @Override protected void onPatternRemoved(PatternDataEx patternData) {
+                @Override protected void onPatternRemoved(Pattern patternData) {
                     removePattern(patternData);
                 }
             };
@@ -208,14 +217,14 @@ abstract public class DetailEditMenu extends JMenuBar {
         return false;
     }
 
-    protected void addPattern(PatternData p) {
+    protected void addPattern(Pattern p) {
         detail.getPatterns().add(p.getID());
         refresh();
     }
 
-    protected void removePattern(PatternData p) {
+    protected void removePattern(Pattern p) {
         detail.getPatterns().remove(p.getID());
-        //refresh();
+        refresh();
         refreshProperties();
     }
 
@@ -223,6 +232,7 @@ abstract public class DetailEditMenu extends JMenuBar {
         synchronized (detail.getProperties()) {
             detail.getProperties().add(prop.newDefaultValue());
         }
+        refresh();
         refreshProperties();
     }
 

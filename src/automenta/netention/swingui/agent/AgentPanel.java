@@ -78,7 +78,7 @@ public class AgentPanel extends JPanel implements ListSelectionListener {
 
         //right: DetailPanel
         dPanel = new DetailPanel(network);
-        detailsPanel.setRightComponent(new JScrollPane(dPanel));
+        detailsPanel.setRightComponent(dPanel);
 
         detailsPanel.setDividerLocation(0.25);
         

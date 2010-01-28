@@ -7,7 +7,7 @@ import javax.swing.JButton;
 public class JHyperLink extends JButton {
 
     public JHyperLink(String toString, String tooltip) {
-        super(toString);
+        super("<html><u>" + toString + "</u></html>");
         setOpaque(false);
         setBorderPainted(false);
         setFont(getFont().deriveFont(Font.BOLD));

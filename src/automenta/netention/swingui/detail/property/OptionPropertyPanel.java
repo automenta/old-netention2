@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import automenta.netention.api.value.PropertyValue;
+import automenta.netention.swingui.JHyperLink;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
@@ -43,7 +43,8 @@ abstract public class OptionPropertyPanel extends JPanel {
 
         setValue(value);
 
-        add(new JLabel(property.getName()));
+        //add(new JLabel(property.getName()));
+        add(new JHyperLink(property.getName(), ""));
 
         initOptions(options);
 

@@ -3,12 +3,14 @@ package automenta.netention.swingui.detail;
 import automenta.netention.api.Detail;
 import automenta.netention.api.Pattern;
 import automenta.netention.api.Schema;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Collection;
 import java.util.List;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-public class PatternMenu extends JMenu {
+abstract public class PatternMenu extends JMenu {
 
     private final List<Pattern> ep;
     private final Schema schema;
@@ -22,11 +24,18 @@ public class PatternMenu extends JMenu {
         }
     }
 
-    public JMenuItem newSubMenu(Pattern p) {
+    public JMenuItem newSubMenu(final Pattern p) {
         Collection<Pattern> children = schema.getChildren(p);
         if (children.size() > 0) {
             JMenu s = new JMenu(p.getName());
+
             JMenuItem mp = new JMenuItem(p.getName());
+            mp.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    onPatternAdded(p);
+                }
+            });
+
             if (ep.contains(p)) {
                 mp.setEnabled(false);
             }
@@ -38,10 +47,18 @@ public class PatternMenu extends JMenu {
             return s;
         } else {
             JMenuItem mp = new JMenuItem(p.getName());
+            mp.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    onPatternAdded(p);
+                }
+            });
+
             if (ep.contains(p)) {
                 mp.setEnabled(false);
             }
             return mp;
         }
     }
+
+    abstract protected void onPatternAdded(Pattern p);
 }

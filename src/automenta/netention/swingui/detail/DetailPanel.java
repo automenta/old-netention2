@@ -42,6 +42,7 @@ public class DetailPanel extends JPanel {
     JMenuBar menu = new JMenuBar();
     private JPanel content = new JPanel(new BorderLayout());
     private final Network network;
+    private Detail detail;
 
     public DetailPanel(Network n) {
         super(new BorderLayout());
@@ -70,9 +71,9 @@ public class DetailPanel extends JPanel {
 
     }
 
-    public static class DetailsPropertyPanel extends JPanel {
+    public class DetailsPropertyPanel extends JPanel {
 
-        private DetailsPropertyPanel(Schema schema, Detail d) {
+        private DetailsPropertyPanel(Schema schema, final Detail d) {
             super(new GridBagLayout());
 
             GridBagConstraints gc = new GridBagConstraints();
@@ -83,9 +84,8 @@ public class DetailPanel extends JPanel {
             gc.weightx = 1.0;
 
             DetailEditMenu detailMenu = new DetailEditMenu(schema, d) {
-
                 @Override protected void refreshProperties() {
-                    //property has been added or removed... refresh display
+                    DetailPanel.this.refresh();
                 }
             };
             add(detailMenu, gc);
@@ -113,6 +113,8 @@ public class DetailPanel extends JPanel {
             gc.weighty = 1.0;
             gc.fill = gc.BOTH;
             add(Box.createVerticalBox(), gc);
+
+            updateUI();
         }
     }
 
@@ -128,8 +130,14 @@ public class DetailPanel extends JPanel {
         }
     }
 
+    public void refresh() {
+        setDetail(detail);
+    }
+
     public void setDetail(Detail d) {
         removeAll();
+
+        this.detail = d;
 
         content.removeAll();
 
@@ -168,9 +176,9 @@ public class DetailPanel extends JPanel {
 
         add(content, BorderLayout.CENTER);
 
-        updateUI();
-
         sp.setDividerLocation(0.9);
+
+        updateUI();
 
 
     }
