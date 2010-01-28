@@ -3,6 +3,8 @@
  */
 package automenta.netention.swingui.detail.property;
 
+import automenta.netention.api.Detail;
+import automenta.netention.api.Schema;
 import java.util.List;
 
 import automenta.netention.api.value.PropertyValue;
@@ -15,36 +17,32 @@ import automenta.netention.api.value.real.RealLessThan;
 import automenta.netention.api.value.real.RealMoreThan;
 import automenta.netention.api.value.real.RealVar;
 
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.TextBox;
+import automenta.netention.gwtdepr.ui.detail.property.PropertyPanel.PropertyTextBox;
+import java.awt.FlowLayout;
+import java.awt.Label;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class RealPropertyPanel extends OptionPropertyPanel {	
 
-	private Label unitLabel;
+	private JLabel unitLabel;
 
 	
-	public RealPropertyPanel(String property) {
-		super(property);		
-
-	}
-
-	public RealPropertyPanel(String property, PropertyValue v) {
-		super(property, v);
+	public RealPropertyPanel(Schema s, Detail d, String property, PropertyValue v) {
+		super(s, d, property, v);
 	}
 
 
 	@Override protected void initOptions(List<PropertyOption> options) {
 		options.add(new PropertyOption<RealIs>("is") {			
-			private TextBox isBox;
+			private JTextField isBox;
 
-			@Override public Panel newEditPanel(RealIs v) {
+			@Override public JPanel newEditPanel(RealIs v) {
 				setValue(v);
 				setIs();
-				Panel p = new FlowPanel();
-				isBox = new PropertyTextBox();
-				isBox.setText( Double.toString(v.getValue()) );
+				JPanel p = new JPanel(new FlowLayout());
+				isBox = new JTextField(Double.toString(v.getValue()));
 				p.add(isBox);
 				return p;
 			}
@@ -62,15 +60,14 @@ public class RealPropertyPanel extends OptionPropertyPanel {
 		});
 
 		options.add(new PropertyOption<RealEquals>("will equal") {			
-			private TextBox equalsBox;
+			private JTextField equalsBox;
 
-			@Override public Panel newEditPanel(RealEquals v) {
+			@Override public JPanel newEditPanel(RealEquals v) {
 				setValue(v);
 				setWillBe();
 
-				Panel p = new FlowPanel();
-				equalsBox = new PropertyTextBox();
-				equalsBox.setText( Double.toString(v.getValue()) );
+				JPanel p = new JPanel(new FlowLayout());
+				equalsBox = new JTextField(Double.toString(v.getValue()));
 				p.add(equalsBox);
 				return p;
 			}
@@ -88,15 +85,14 @@ public class RealPropertyPanel extends OptionPropertyPanel {
 		});
 
 		options.add(new PropertyOption<RealMoreThan>("will be greater than") {			
-			private TextBox moreThanBox;
+			private JTextField moreThanBox;
 
-			@Override public Panel newEditPanel(RealMoreThan v) {
+			@Override public JPanel newEditPanel(RealMoreThan v) {
 				setValue(v);
 				setWillBe();
 
-				Panel p = new FlowPanel();
-				moreThanBox = new PropertyTextBox();
-				moreThanBox.setText( Double.toString(v.getValue()) );
+				JPanel p = new JPanel(new FlowLayout());
+				moreThanBox = new JTextField(Double.toString(v.getValue()));
 				p.add(moreThanBox);
 				return p;
 			}
@@ -107,7 +103,6 @@ public class RealPropertyPanel extends OptionPropertyPanel {
 			}
 
 			@Override public boolean accepts(Value v) {		return v.getClass().equals(RealMoreThan.class);			}
-
 			
 			@Override public RealMoreThan newDefaultValue() {
 				return new RealMoreThan(0);
@@ -115,15 +110,14 @@ public class RealPropertyPanel extends OptionPropertyPanel {
 		});
 
 		options.add(new PropertyOption<RealLessThan>("will be less than") {			
-			private TextBox lessThanBox;
+			private JTextField lessThanBox;
 
-			@Override public Panel newEditPanel(RealLessThan v) {
+			@Override public JPanel newEditPanel(RealLessThan v) {
 				setValue(v);
 				setWillBe();
 
-				Panel p = new FlowPanel();
-				lessThanBox = new PropertyTextBox();
-				lessThanBox.setText( Double.toString(v.getValue()) );
+				JPanel p = new JPanel(new FlowLayout());
+				lessThanBox = new JTextField(Double.toString(v.getValue()));
 				p.add(lessThanBox);
 				return p;
 			}
@@ -142,24 +136,22 @@ public class RealPropertyPanel extends OptionPropertyPanel {
 		});
 
 		options.add(new PropertyOption<RealBetween>("will be between") {			
-			private PropertyTextBox minBox;
-			private PropertyTextBox maxBox;
+			private JTextField minBox;
+			private JTextField maxBox;
 
 			//TODO add inclusive checkbox
 			
-			@Override public Panel newEditPanel(RealBetween v) {
+			@Override public JPanel newEditPanel(RealBetween v) {
 				setValue(v);
 				setWillBe();
 				
-				Panel p = new FlowPanel();
-				minBox = new PropertyTextBox();
-				minBox.setText( Double.toString(v.getMin()) );
+				JPanel p = new JPanel();
+				minBox = new JTextField(Double.toString(v.getMin()));
 				p.add(minBox);
 
 				p.add(new Label(" and "));
 				
-				maxBox = new PropertyTextBox();
-				maxBox.setText( Double.toString(v.getMax()) );
+				maxBox = new JTextField(Double.toString(v.getMax()));
 				p.add(maxBox);
 
 				return p;
@@ -196,12 +188,11 @@ public class RealPropertyPanel extends OptionPropertyPanel {
 	protected void initPropertyPanel() {
 		super.initPropertyPanel();
 
-		unitLabel = new Label();
-		unitLabel.addStyleName("PropertyLabel");
+		unitLabel = new JLabel();
 
-		if (getPropertyData()!=null) {
-			if (getPropertyData() instanceof RealVar) {
-				RealVar rv = (RealVar) getPropertyData();
+		if (getProperty()!=null) {
+			if (getProperty() instanceof RealVar) {
+				RealVar rv = (RealVar) getProperty();
 				Unit unit = rv.getUnit();
 				if (unit!=null)
 					unitLabel.setText(getUnitText(unit));

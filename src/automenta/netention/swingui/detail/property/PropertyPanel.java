@@ -15,7 +15,7 @@ import java.awt.Label;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class PropertyPanel extends JPanel {
+@Deprecated abstract public class PropertyPanel extends JPanel {
 	//data to widgets: get(property) -> widgets
 	//widgets to data: widgets -> set(property, value)
 
@@ -25,17 +25,19 @@ public class PropertyPanel extends JPanel {
 
 	private JPanel nameHolder;
 
-	private Property propertyData;
-
 	private DetailData node;
     private final PropertyValue propValue;
     private final Property property;
+    private final Schema schema;
+    private final Detail detail;
 
-	public PropertyPanel(Schema s, Detail d, PropertyValue p) {
+	public PropertyPanel(Schema s, Detail d, String propID, PropertyValue currentValue) {
 		super(new FlowLayout());
 
-        this.propValue = p;
-		this.propID = p.getProperty();
+        this.schema = s;
+        this.detail = d;
+        this.propValue = currentValue;
+		this.propID = propID; //currentValue.getProperty();
         this.property = s.getProperty(propID);
 
         if (property == null) {
@@ -43,7 +45,9 @@ public class PropertyPanel extends JPanel {
             return;
         }
 
-		add(new JLabel(property.getName()));
+        setValue(currentValue);
+
+
 
 
 //		nameHolder = new FlowPanel();
@@ -66,22 +70,38 @@ public class PropertyPanel extends JPanel {
 //		});
 
 	}
+    abstract public void setValue(PropertyValue currentValue);
+//    public void setValue(PropertyValue currentValue) {
+//        removeAll();
+//
+//		add(new JLabel(property.getName()));
+//
+//        if (property instanceof IntegerVar) {
+//            add(new IntPropertyPanel(schema, detail, propID, propValue));
+//        }
+//
+////        JComboBox modeCombo = new JComboBox();
+////        modeCombo.addItem("is");
+////        modeCombo.addItem("will");
+////        add(modeCombo);
+//
+//    }
+
 
 	/** called after getPropertyData() becomes available */
 	protected void initPropertyPanel() {
-		String name = getPropertyData().getName();
+		String name = getProperty().getName();
 
 		propLabel.setText(name);
 
 		nameHolder.add(propLabel);		
 	}
 
-	public Property getPropertyData() {
-		return propertyData;
+	public Property getProperty() {
+		return property;
 	}
 	
-
-	protected String getProperty() {
+	protected String getPropertyID() {
 		return propID;
 	}
 
@@ -110,6 +130,7 @@ public class PropertyPanel extends JPanel {
 	public DetailData getNode() {
 		return node;
 	}
+
 	
 
 

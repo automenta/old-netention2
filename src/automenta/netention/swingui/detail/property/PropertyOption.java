@@ -6,7 +6,7 @@ package automenta.netention.swingui.detail.property;
 import automenta.netention.api.value.PropertyValue;
 import automenta.netention.api.value.Value;
 
-import com.google.gwt.user.client.ui.Panel;
+import javax.swing.JPanel;
 
 abstract public class PropertyOption<V extends PropertyValue> {
 	
@@ -36,7 +36,7 @@ abstract public class PropertyOption<V extends PropertyValue> {
 	/** note: does not setProperty(), caller's responsible for setProperty() otherwise it will be null */
 	abstract public V newDefaultValue();
 
-	abstract public Panel newEditPanel(V value);
+	abstract public JPanel newEditPanel(V value);
 
 	abstract public boolean accepts(Value v);
 	

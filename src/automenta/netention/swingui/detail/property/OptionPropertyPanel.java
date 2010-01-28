@@ -1,74 +1,98 @@
 package automenta.netention.swingui.detail.property;
 
+import automenta.netention.api.Detail;
+import automenta.netention.api.Schema;
+import automenta.netention.api.value.Property;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import automenta.netention.gwtdepr.data.DetailData;
 import automenta.netention.api.value.PropertyValue;
+import java.awt.FlowLayout;
+import java.awt.event.ActionListener;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.Panel;
 
-abstract public class OptionPropertyPanel extends PropertyPanel {
+abstract public class OptionPropertyPanel extends JPanel {
 
-	private ListBox typeSelect;
+	private JComboBox typeSelect;
 
-	private FlowPanel editPanel;
+	private JPanel editPanel;
 	private PropertyValue value;
 
 	private List<PropertyOption> options = new ArrayList();
 
 	private PropertyOption currentOption;
+    private final Schema schema;
+    private final Detail detail;
+    private final String propertyID;
+    private final Property property;
 
-	public OptionPropertyPanel(String property) {
-		super(property);
-		
+	public OptionPropertyPanel(Schema s, Detail d, String propertyID, PropertyValue v) {
+        super(new FlowLayout());
+        this.schema = s;
+        this.detail = d;
+        this.propertyID = propertyID;
+        this.property = s.getProperty(propertyID);
+        this.value = v;
+
+        setValue(value);
+
+        add(new JLabel(property.getName()));
+
+        initPropertyPanel();
 
 
 	}
 
-	@Override protected void initPropertyPanel() {
-		super.initPropertyPanel();
+	protected void initPropertyPanel() {
+		//super.initPropertyPanel();
 		
 		initOptions(options);
 
-		typeSelect = new ListBox();
-		typeSelect.addStyleName("PropertySelect");
+		typeSelect = new JComboBox();
 		for (PropertyOption po : options) {
 			typeSelect.addItem(po.getName());			
 		}
-		typeSelect.addChangeHandler(new ChangeHandler() {
-			@Override public void onChange(ChangeEvent event) {
+        typeSelect.addActionListener(new ActionListener() {
+            @Override public void actionPerformed(ActionEvent e) {
 				int x = typeSelect.getSelectedIndex();
 				
 				PropertyOption po = options.get(x);
 				setCurrentOption(po);
 
+
 				setValue(po.newDefaultValue());
 
-				Panel p = po.newEditPanel(value);
+				JPanel p = po.newEditPanel(value);
 				
-				editPanel.clear();
+				editPanel.removeAll();
 				editPanel.add(p);
-			}			
+                
+			}
+
 		});
 		add(typeSelect);
 		
-		editPanel = new FlowPanel();
+		editPanel = new JPanel();
 		add(editPanel);
 
 		valueToWidget();
 
 	}
-	
 
-	public OptionPropertyPanel(String property, PropertyValue v) {
-		this(property);
-		this.value = v;
-	}
+    protected void setIs() {
+
+    }
+    protected void setWillBe() {
+
+    }
+
+    protected void setValue(PropertyValue val) {
+        this.value = val;
+    }
 
 	abstract protected void initOptions(List<PropertyOption> options);
 
@@ -85,8 +109,8 @@ abstract public class OptionPropertyPanel extends PropertyPanel {
 				
 				setCurrentOption(po);
 				
-				Panel p = po.newEditPanel(value);
-				editPanel.clear();
+				JPanel p = po.newEditPanel(value);
+				editPanel.removeAll();
 				editPanel.add(p);
 				
 				return;
@@ -98,32 +122,32 @@ abstract public class OptionPropertyPanel extends PropertyPanel {
 		this.currentOption = po;		
 	}
 
-	protected void setValue(PropertyValue newValue) {
-		PropertyValue oldValue = this.value;
-		this.value = newValue;
-		
-		this.value.setProperty(getProperty());
-		
-		//TODO replace old with new value, at original index
-		if (getNode()!=null) {
-			if (oldValue!=newValue) {
-				synchronized (getNode().getProperties()) {
-					getNode().getProperties().remove(oldValue);
-					getNode().getProperties().add(newValue);
-				}
-			}
-		}
-		
-	}
+//	protected void setValue(PropertyValue newValue) {
+//		PropertyValue oldValue = this.value;
+//		this.value = newValue;
+//
+//		this.value.setProperty(getProperty());
+//
+//		//TODO replace old with new value, at original index
+//		if (getNode()!=null) {
+//			if (oldValue!=newValue) {
+//				synchronized (getNode().getProperties()) {
+//					getNode().getProperties().remove(oldValue);
+//					getNode().getProperties().add(newValue);
+//				}
+//			}
+//		}
+//
+//	}
 
-	@Override
-	public void setNode(DetailData node) {
-		super.setNode(node);
-		setValue(getValue());
-	}
+//	@Override
+//	public void setNode(DetailData node) {
+//		super.setNode(node);
+//		setValue(getValue());
+//	}
 	
 	/** save */
-	@Override public void widgetToValue() {
+	public void widgetToValue() {
 		if (currentOption!=null) {
 			//causes value to be updated by data presently in the widgets
 
@@ -134,5 +158,10 @@ abstract public class OptionPropertyPanel extends PropertyPanel {
 	public PropertyValue getValue() {
 		return value;
 	}
-	
+
+    public Property getProperty() {
+        return property;
+    }
+
+    
 }

@@ -8,9 +8,13 @@ import automenta.netention.api.Detail;
 import automenta.netention.api.Network;
 import automenta.netention.api.Pattern;
 import automenta.netention.api.Schema;
+import automenta.netention.api.value.Property;
 import automenta.netention.api.value.PropertyValue;
+import automenta.netention.api.value.integer.IntegerVar;
+import automenta.netention.api.value.real.RealVar;
 import automenta.netention.swingui.agent.AgentPanel;
-import automenta.netention.swingui.detail.property.PropertyPanel;
+import automenta.netention.swingui.detail.property.IntPropertyPanel;
+import automenta.netention.swingui.detail.property.RealPropertyPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -119,16 +123,22 @@ public class DetailPanel extends JPanel {
         private DetailsPropertyPanel(Schema schema, Detail d) {
             super(new GridBagLayout());
 
-
             GridBagConstraints gc = new GridBagConstraints();
             gc.anchor = gc.NORTHWEST;
             gc.gridy = 0;
             gc.weighty = 0;
             gc.weightx = 1.0;
             
-
             for (PropertyValue p : d.getProperties()) {
-                add(new PropertyPanel(schema, d, p), gc);
+                Property prop = schema.getProperty(p.getProperty());
+
+                if (prop instanceof IntegerVar) {
+                    add(new IntPropertyPanel(schema, d, p.getProperty(), p), gc);
+                }
+                else if (prop instanceof RealVar) {
+                    add(new RealPropertyPanel(schema, d, p.getProperty(), p), gc);
+                }
+
                 gc.gridy++;
             }
 

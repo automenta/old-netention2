@@ -3,44 +3,41 @@
  */
 package automenta.netention.swingui.detail.property;
 
+import automenta.netention.api.Detail;
+import automenta.netention.api.Schema;
 import java.util.List;
 
 import automenta.netention.api.value.PropertyValue;
 import automenta.netention.api.value.Value;
 import automenta.netention.api.value.integer.IntegerEquals;
 import automenta.netention.api.value.integer.IntegerIs;
+import java.awt.FlowLayout;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.TextBox;
 
 public class IntPropertyPanel extends OptionPropertyPanel {	
 
-	private Label unitLabel;
+	private JLabel unitLabel;
 
 	
-	public IntPropertyPanel(String property) {
-		super(property);		
-
+	public IntPropertyPanel(Schema s, Detail d, String property, PropertyValue v) {
+		super(s, d, property, v);
 	}
-
-	public IntPropertyPanel(String property, PropertyValue v) {
-		super(property, v);
-	}
+    
 
 
 	@Override protected void initOptions(List<PropertyOption> options) {
 		options.add(new PropertyOption<IntegerIs>("is") {			
-			private TextBox isBox;
+			private JTextField isBox;
 
-			@Override public Panel newEditPanel(IntegerIs v) {
+			@Override public JPanel newEditPanel(IntegerIs v) {
 				setValue(v);
 				setIs();
 				
-				Panel p = new FlowPanel();
-				isBox = new PropertyTextBox();
-				isBox.setText( Integer.toString(v.getValue()) );
+				JPanel p = new JPanel(new FlowLayout());
+				isBox = new JTextField(Integer.toString(v.getValue()));
 				p.add(isBox);
 				return p;
 			}
@@ -58,15 +55,14 @@ public class IntPropertyPanel extends OptionPropertyPanel {
 		});
 
 		options.add(new PropertyOption<IntegerEquals>("will equal") {			
-			private TextBox equalsBox;
+			private JTextField equalsBox;
 
-			@Override public Panel newEditPanel(IntegerEquals v) {
+			@Override public JPanel newEditPanel(IntegerEquals v) {
 				setValue(v);
 				setWillBe();
 
-				Panel p = new FlowPanel();
-				equalsBox = new PropertyTextBox();
-				equalsBox.setText( Integer.toString(v.getValue()) );
+				JPanel p = new JPanel(new FlowLayout());
+				equalsBox = new JTextField(Integer.toString(v.getValue()));
 				p.add(equalsBox);
 				return p;
 			}
@@ -173,6 +169,7 @@ public class IntPropertyPanel extends OptionPropertyPanel {
 //		});
 		
 	}
+
 	
 
 

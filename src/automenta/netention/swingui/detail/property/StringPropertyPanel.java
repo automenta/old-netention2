@@ -57,7 +57,7 @@ public class StringPropertyPanel extends OptionPropertyPanel {
 				Panel p = new FlowPanel();
 
 				
-				StringVar sv = (StringVar) getPropertyData();
+				StringVar sv = (StringVar) getProperty();
 //				if (sv.isRich()) {
 //					rta = new RichTextArea();
 //					rta.setText(value.getValue());
