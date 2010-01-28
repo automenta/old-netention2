@@ -1,0 +1,47 @@
+package automenta.netention.swingui.detail;
+
+import automenta.netention.api.Detail;
+import automenta.netention.api.Pattern;
+import automenta.netention.api.Schema;
+import java.util.Collection;
+import java.util.List;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+
+public class PatternMenu extends JMenu {
+
+    private final List<Pattern> ep;
+    private final Schema schema;
+
+    public PatternMenu(Schema s, Detail d) {
+        super("It\'s a...");
+        this.schema = s;
+        this.ep = s.getPatterns(d);
+        for (Pattern p : s.getRootPatterns()) {
+            add(newSubMenu(p));
+        }
+    }
+
+    public JMenuItem newSubMenu(Pattern p) {
+        Collection<Pattern> children = schema.getChildren(p);
+        if (children.size() > 0) {
+            JMenu s = new JMenu(p.getName());
+            JMenuItem mp = new JMenuItem(p.getName());
+            if (ep.contains(p)) {
+                mp.setEnabled(false);
+            }
+            s.add(mp);
+            s.addSeparator();
+            for (Pattern c : children) {
+                s.add(newSubMenu(c));
+            }
+            return s;
+        } else {
+            JMenuItem mp = new JMenuItem(p.getName());
+            if (ep.contains(p)) {
+                mp.setEnabled(false);
+            }
+            return mp;
+        }
+    }
+}

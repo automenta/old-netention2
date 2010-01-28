@@ -26,8 +26,6 @@ public class IntPropertyPanel extends OptionPropertyPanel {
 		super(s, d, property, v);
 	}
     
-
-
 	@Override protected void initOptions(List<PropertyOption> options) {
 		options.add(new PropertyOption<IntegerIs>("is") {			
 			private JTextField isBox;

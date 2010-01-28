@@ -10,12 +10,9 @@ import automenta.netention.api.value.string.StringIs;
 import automenta.netention.api.value.string.StringNotContains;
 import automenta.netention.api.value.string.StringVar;
 
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.RichTextArea;
-import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwt.user.client.ui.TextBox;
+import java.awt.FlowLayout;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class StringPropertyPanel extends OptionPropertyPanel {
 
@@ -31,8 +28,9 @@ public class StringPropertyPanel extends OptionPropertyPanel {
 		
 		options.add(new PropertyOption<StringIs>("is") {
 
-			private SuggestBox isBox;
-			private RichTextArea rta;
+			//private SuggestBox isBox;
+			//private RichTextArea rta;
+            JTextField rta;
 
 			@Override public boolean accepts(Value v) { 	return v.getClass().equals(StringIs.class);		}
 
@@ -41,39 +39,43 @@ public class StringPropertyPanel extends OptionPropertyPanel {
 			}
 
 			@Override public StringIs widgetToValue(StringIs r) {
-				if (rta !=null) {
-					r.setValue( rta.getText() );
-				}
-				else {
-					r.setValue( isBox.getText() );
-				}
+                r.setValue(rta.getText());
+//				if (rta !=null) {
+//					r.setValue( rta.getText() );
+//				}
+//				else {
+//					r.setValue( isBox.getText() );
+//				}
 				return r;
 			}
 			
-			@Override public Panel newEditPanel(StringIs value) {
-				setValue(value);
+			@Override public JPanel newEditPanel(StringIs value) {
+				
 				setIs();
 
-				Panel p = new FlowPanel();
+				JPanel p = new JPanel(new FlowLayout());
+                rta = new JTextField(value.getString());
+                p.add(rta);
 
 				
 				StringVar sv = (StringVar) getPropertyData();
+
 //				if (sv.isRich()) {
 //					rta = new RichTextArea();
 //					rta.setText(value.getValue());
 //					p.add(rta);
 //				}
 //				else {
-					MultiWordSuggestOracle oracle = new MultiWordSuggestOracle();
-
-					if (sv.getExampleValues()!=null) {
-						oracle.setDefaultSuggestionsFromText(sv.getExampleValues());
-					}
-									
-					isBox = new SuggestBox(oracle);
-					
-					isBox.setText(value.getValue());
-					p.add(isBox);
+//					MultiWordSuggestOracle oracle = new MultiWordSuggestOracle();
+//
+//					if (sv.getExampleValues()!=null) {
+//						oracle.setDefaultSuggestionsFromText(sv.getExampleValues());
+//					}
+//
+//					isBox = new SuggestBox(oracle);
+//
+//					isBox.setText(value.getValue());
+//					p.add(isBox);
 					
 //				}
 				
@@ -84,7 +86,8 @@ public class StringPropertyPanel extends OptionPropertyPanel {
 		
 		options.add(new PropertyOption<StringEquals>("will equal") {
 
-			private TextBox eqBox;
+			//private TextBox eqBox;
+            private JTextField eqBox;
 
 			@Override public boolean accepts(Value v) { 	return v.getClass().equals(StringEquals.class);		}
 
@@ -98,12 +101,12 @@ public class StringPropertyPanel extends OptionPropertyPanel {
 				return new StringEquals("");
 			}
 
-			@Override public Panel newEditPanel(StringEquals value) {
+			@Override public JPanel newEditPanel(StringEquals value) {
 				setValue(value);
 				setWillBe();
 				
-				Panel p = new FlowPanel();
-				eqBox = new TextBox();
+				JPanel p = new JPanel(new FlowLayout());
+				eqBox = new JTextField();
 				eqBox.setText(value.getString());
 				p.add(eqBox);
 				
@@ -114,7 +117,7 @@ public class StringPropertyPanel extends OptionPropertyPanel {
 
 		options.add(new PropertyOption<StringContains>("will contain") {
 
-			private TextBox eqBox;
+			private JTextField eqBox;
 
 			@Override public boolean accepts(Value v) { 	return v.getClass().equals(StringContains.class);		}
 
@@ -127,12 +130,12 @@ public class StringPropertyPanel extends OptionPropertyPanel {
 				return r;
 			}
 						
-			@Override public Panel newEditPanel(StringContains value) {
+			@Override public JPanel newEditPanel(StringContains value) {
 				setValue(value);
 				setWillBe();
 				
-				Panel p = new FlowPanel();
-				eqBox = new TextBox();
+				JPanel p = new JPanel(new FlowLayout());
+				eqBox = new JTextField();
 				eqBox.setText(value.getString());
 				p.add(eqBox);
 				
@@ -143,7 +146,7 @@ public class StringPropertyPanel extends OptionPropertyPanel {
 
 		options.add(new PropertyOption<StringNotContains>("will not contain") {
 
-			private TextBox eqBox;
+			private JTextField eqBox;
 
 			@Override public boolean accepts(Value v) { 	return v.getClass().equals(StringNotContains.class);		}
 
@@ -156,12 +159,12 @@ public class StringPropertyPanel extends OptionPropertyPanel {
 				return new StringNotContains("");
 			}
 
-			@Override public Panel newEditPanel(StringNotContains value) {
+			@Override public JPanel newEditPanel(StringNotContains value) {
 				setValue(value);
 				setWillBe();
 				
-				Panel p = new FlowPanel();
-				eqBox = new TextBox();
+				JPanel p = new JPanel(new FlowLayout());
+				eqBox = new JTextField();
 				eqBox.setText(value.getString());
 				p.add(eqBox);
 				

@@ -96,4 +96,13 @@ public class Detail extends Node {
         return null;
     }
 
+	public int getNumPropertiesDefined(String property) {
+		int count = 0;
+		for (PropertyValue pv : getProperties()) {
+			if (pv.getProperty().equals(property))
+				count++;
+		}
+		return count;
+	}
+
 }

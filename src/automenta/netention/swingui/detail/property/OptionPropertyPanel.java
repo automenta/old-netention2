@@ -32,6 +32,9 @@ abstract public class OptionPropertyPanel extends JPanel {
 
 	public OptionPropertyPanel(Schema s, Detail d, String propertyID, PropertyValue v) {
         super(new FlowLayout());
+
+        setOpaque(false);
+        
         this.schema = s;
         this.detail = d;
         this.propertyID = propertyID;
@@ -42,6 +45,8 @@ abstract public class OptionPropertyPanel extends JPanel {
 
         add(new JLabel(property.getName()));
 
+        initOptions(options);
+
         initPropertyPanel();
 
 
@@ -50,7 +55,6 @@ abstract public class OptionPropertyPanel extends JPanel {
 	protected void initPropertyPanel() {
 		//super.initPropertyPanel();
 		
-		initOptions(options);
 
 		typeSelect = new JComboBox();
 		for (PropertyOption po : options) {
@@ -63,14 +67,15 @@ abstract public class OptionPropertyPanel extends JPanel {
 				PropertyOption po = options.get(x);
 				setCurrentOption(po);
 
-
-				setValue(po.newDefaultValue());
+                if (!po.accepts(getValue()))
+                    setValue(po.newDefaultValue());
 
 				JPanel p = po.newEditPanel(value);
 				
 				editPanel.removeAll();
 				editPanel.add(p);
-                
+
+                updateUI();
 			}
 
 		});
@@ -80,6 +85,8 @@ abstract public class OptionPropertyPanel extends JPanel {
 		add(editPanel);
 
 		valueToWidget();
+
+        updateUI();
 
 	}
 

@@ -12,16 +12,17 @@ import automenta.netention.api.value.Property;
 import automenta.netention.api.value.PropertyValue;
 import automenta.netention.api.value.integer.IntegerVar;
 import automenta.netention.api.value.real.RealVar;
+import automenta.netention.api.value.string.StringVar;
 import automenta.netention.swingui.agent.AgentPanel;
 import automenta.netention.swingui.detail.property.IntPropertyPanel;
 import automenta.netention.swingui.detail.property.RealPropertyPanel;
+import automenta.netention.swingui.detail.property.StringPropertyPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.util.Collection;
-import java.util.List;
+import java.awt.Insets;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JMenu;
@@ -42,7 +43,6 @@ public class DetailPanel extends JPanel {
     private JPanel content = new JPanel(new BorderLayout());
     private final Network network;
 
-
     public DetailPanel(Network n) {
         super(new BorderLayout());
 
@@ -54,51 +54,9 @@ public class DetailPanel extends JPanel {
         setDetail(d);
     }
 
-    public static class PatternMenu extends JMenu {
-        private final List<Pattern> ep;
-        private final Schema schema;
-        public PatternMenu(Schema s, Detail d) {
-            super("It's a...");
-
-            this.schema = s;
-            this.ep = s.getPatterns(d);
-
-            for (Pattern p : s.getRootPatterns()) {
-                add(newSubMenu(p));
-            }
-        }
-
-        public JMenuItem newSubMenu(Pattern p) {
-            Collection<Pattern> children = schema.getChildren(p);
-            if (children.size() > 0) {
-                JMenu s = new JMenu(p.getName());
-
-                JMenuItem mp = new JMenuItem(p.getName());
-                if (ep.contains(p)) {
-                    mp.setEnabled(false);
-                }
-                s.add(mp);
-
-                s.addSeparator();
-
-                for (Pattern c : children) {
-                    s.add(newSubMenu(c));
-                }
-                return s;
-            }
-            else {
-                JMenuItem mp = new JMenuItem(p.getName());
-                if (ep.contains(p)) {
-                    mp.setEnabled(false);
-                }
-                return mp;
-            }
-        }
-    }
-
     protected void updateMenu(Detail d) {
         menu.removeAll();
-        
+
         JMenu detailMenu = new JMenu(d.getName());
         detailMenu.setFont(AgentPanel.FontH1);
 
@@ -106,16 +64,10 @@ public class DetailPanel extends JPanel {
         detailMenu.add(new JMenuItem("Rename"));
         detailMenu.add(new JMenuItem("Delete"));
 
-        
+
         menu.add(detailMenu);
 
-        PatternMenu patternMenu = new PatternMenu(network.getSchema(), d);
-        menu.add(patternMenu);
 
-        JButton updateButton = new JButton("Update");
-        updateButton.setEnabled(false);
-        updateButton.setAlignmentX(JButton.RIGHT_ALIGNMENT);
-        menu.add(updateButton);
     }
 
     public static class DetailsPropertyPanel extends JPanel {
@@ -125,18 +77,34 @@ public class DetailPanel extends JPanel {
 
             GridBagConstraints gc = new GridBagConstraints();
             gc.anchor = gc.NORTHWEST;
+            gc.gridx = 0;
             gc.gridy = 0;
             gc.weighty = 0;
             gc.weightx = 1.0;
-            
+
+            DetailEditMenu detailMenu = new DetailEditMenu(schema, d) {
+
+                @Override protected void refreshProperties() {
+                    //property has been added or removed... refresh display
+                }
+            };
+            add(detailMenu, gc);
+
+            gc.insets = new Insets(4,16,4,4);
+            JButton updateButton = new JButton("Update");
+            updateButton.setEnabled(false);            
+            detailMenu.add(updateButton);
+
+            gc.gridy++;
             for (PropertyValue p : d.getProperties()) {
                 Property prop = schema.getProperty(p.getProperty());
 
                 if (prop instanceof IntegerVar) {
                     add(new IntPropertyPanel(schema, d, p.getProperty(), p), gc);
-                }
-                else if (prop instanceof RealVar) {
+                } else if (prop instanceof RealVar) {
                     add(new RealPropertyPanel(schema, d, p.getProperty(), p), gc);
+                } else if (prop instanceof StringVar) {
+                    add(new StringPropertyPanel(schema, d, p.getProperty(), p), gc);
                 }
 
                 gc.gridy++;
@@ -146,7 +114,6 @@ public class DetailPanel extends JPanel {
             gc.fill = gc.BOTH;
             add(Box.createVerticalBox(), gc);
         }
-
     }
 
     public static class LinkPanel extends JPanel {
@@ -154,19 +121,18 @@ public class DetailPanel extends JPanel {
         private LinkPanel(Network network, Detail d) {
             super(new BorderLayout());
             JTabbedPane tabs = new JTabbedPane();
-            tabs.addTab("Satisfied", new JPanel());
+            tabs.addTab("Satisfying", new JPanel());
             tabs.addTab("Similar", new JPanel());
             tabs.setTabPlacement(JTabbedPane.BOTTOM);
             add(tabs, BorderLayout.CENTER);
         }
-
     }
 
     public void setDetail(Detail d) {
         removeAll();
 
         content.removeAll();
-        
+
         add(menu, BorderLayout.NORTH);
 
 //        GridBagConstraints gc = new GridBagConstraints();
@@ -211,7 +177,7 @@ public class DetailPanel extends JPanel {
 
     private void addPatternSection(Pattern p, GridBagConstraints gc) {
         gc.gridy++;
-        
+
         JPanel patternSection = new JPanel(new FlowLayout());
         patternSection.add(new JButton(p.getName()));
 

@@ -10,6 +10,7 @@ import automenta.netention.api.Detail;
 import automenta.netention.api.Network;
 import automenta.netention.api.value.integer.IntegerIs;
 import automenta.netention.api.value.real.RealIs;
+import automenta.netention.api.value.string.StringIs;
 import automenta.netention.example.ExampleNetwork;
 import automenta.netention.swingui.agent.AgentPanel;
 import javax.swing.UIManager;
@@ -33,6 +34,7 @@ public class DemoAgentPanel {
         Detail d = network.newDetail(s, "Mountain Bike", "Bicycle");
         d.add("gearCount", new IntegerIs(12));
         d.add("wheelDiameter", new RealIs(22));
+        d.add("bicycleType", new StringIs("mountain"));
 
         network.newDetail(s, "Guitar", "Guitar");
 
