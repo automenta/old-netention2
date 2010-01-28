@@ -91,9 +91,9 @@ public class DetailPanel extends JPanel {
             add(detailMenu, gc);
 
             gc.insets = new Insets(4,16,4,4);
-            JButton updateButton = new JButton("Update");
-            updateButton.setEnabled(false);            
-            detailMenu.add(updateButton);
+//            JButton updateButton = new JButton("Update");
+//            updateButton.setEnabled(false);
+//            detailMenu.add(updateButton);
 
             gc.gridy++;
             for (PropertyValue p : d.getProperties()) {

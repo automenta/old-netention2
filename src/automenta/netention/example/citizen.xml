@@ -18,8 +18,14 @@
 		Value of something; how much its worth
 	</pattern>
     
-	<pattern id="DollarValued">
+	<pattern id="DollarValued" name="US Dollar ($) Value">
 		Dollar value
+        <extend id="Valued"/>
+	</pattern>
+
+	<pattern id="ThingValued" name="Same Value As...">
+		Has a value that is the same as other objects
+        <node id="valuedSimilarlyTo" name="Valued Similarly To" maxMult="-1"/>
         <extend id="Valued"/>
 	</pattern>
 
@@ -55,12 +61,14 @@
 	</pattern>
 
     <pattern id="Gig">
-        A job with fixed start and stop time.
+        Job with fixed start and stop time.
         <extend id="Event"/>
         <extend id="Service"/>
     </pattern>
 
-    <pattern id="Project"/>
+    <pattern id="Project">
+        Project or goal
+    </pattern>
 
 	<pattern id="PhysicalThing" name="Physical Thing">
 		<extend id="Located"/>
@@ -147,8 +155,8 @@
     </pattern>
 
 	<pattern id="OnlineAccount">
-        <string id="login" name="Login"/>
-        <string type="password" id="password" name="Password"/>
+        <string id="login" name="Login" minMult="1" maxMult="1"/>
+        <string type="password" id="password" name="Password" minMult="1" maxMult="1"/>
     </pattern>
 
     <pattern id="TwitterAccount">

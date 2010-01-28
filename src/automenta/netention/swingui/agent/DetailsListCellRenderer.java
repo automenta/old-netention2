@@ -28,21 +28,34 @@ class DetailsListCellRenderer implements ListCellRenderer {
         JPanel j = new JPanel(new BorderLayout());
 
 
-        JLabel nameLabel;
+        JLabel nameLabel, subLabel = null;
         if (value instanceof Detail) {
             Detail d = (Detail)value;
             nameLabel = new JLabel(d.getName());
+            
+            String typeString = d.getPatterns().toString();
+            int maxTypeStringLength = 16;
+            if (typeString.length() > maxTypeStringLength)
+                typeString = typeString.substring(0, maxTypeStringLength);
+            subLabel = new JLabel(typeString);
         }
         else {
             nameLabel = new JLabel(value.toString());
         }
+
+        nameLabel.setFont(AgentPanel.FontH2);
         j.add(nameLabel, BorderLayout.CENTER);
+        if (subLabel!=null) {
+            j.add(subLabel, BorderLayout.SOUTH);
+        }
 
         Color bgColor;
         
         if (isSelected) {
             bgColor = Color.DARK_GRAY;
             nameLabel.setForeground(Color.WHITE);
+            if (subLabel!=null)
+                subLabel.setForeground(Color.WHITE);
         }
         else {
             if (index % 2 == 1) {
