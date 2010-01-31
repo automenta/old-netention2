@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import automenta.netention.api.value.PropertyValue;
-import automenta.netention.swingui.JHyperLink;
+import automenta.netention.swingui.util.JHyperLink;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
@@ -83,6 +83,7 @@ abstract public class OptionPropertyPanel extends JPanel {
 		add(typeSelect);
 		
 		editPanel = new JPanel();
+        editPanel.setOpaque(false);
 		add(editPanel);
 
 		valueToWidget();

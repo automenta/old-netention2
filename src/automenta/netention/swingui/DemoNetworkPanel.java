@@ -5,6 +5,8 @@
 
 package automenta.netention.swingui;
 
+import automenta.netention.swingui.network.NetworkPanel;
+import automenta.netention.swingui.util.SwingWindow;
 import automenta.netention.api.Network;
 import automenta.netention.example.ExampleNetwork;
 import javax.swing.UIManager;

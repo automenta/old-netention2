@@ -34,7 +34,7 @@ public class IntPropertyPanel extends OptionPropertyPanel {
 				setValue(v);
 				setIs();
 				
-				JPanel p = new JPanel(new FlowLayout());
+				JPanel p = new TransparentFlowPanel();
 				isBox = new JTextField(Integer.toString(v.getValue()));
 				p.add(isBox);
 				return p;
@@ -59,7 +59,7 @@ public class IntPropertyPanel extends OptionPropertyPanel {
 				setValue(v);
 				setWillBe();
 
-				JPanel p = new JPanel(new FlowLayout());
+				JPanel p =  new TransparentFlowPanel();
 				equalsBox = new JTextField(Integer.toString(v.getValue()));
 				p.add(equalsBox);
 				return p;

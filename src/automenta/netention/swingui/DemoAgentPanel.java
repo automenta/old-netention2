@@ -5,6 +5,7 @@
 
 package automenta.netention.swingui;
 
+import automenta.netention.swingui.util.SwingWindow;
 import automenta.netention.api.Agent;
 import automenta.netention.api.Detail;
 import automenta.netention.api.Network;
@@ -36,10 +37,16 @@ public class DemoAgentPanel {
         d.add("wheelDiameter", new RealIs(22));
         d.add("bicycleType", new StringIs("mountain"));
 
-        network.newDetail(s, "Guitar", "Guitar");
+        Detail g = network.newDetail(s, "Guitar", "Guitar");
+        
 
         network.newDetail(s, "Apartment", "Dwelling");
         network.newDetail(s, "Next Apartment", "Dwelling");
+
+        Detail t = network.newDetail(s, "Twitter", "TwitterAccount");
+        t.add("login", new StringIs("twitterid"));
+        t.add("password", new StringIs("********"));
+
 
         AgentPanel dp = new AgentPanel(network, s);
         dp.setDetail(d);;

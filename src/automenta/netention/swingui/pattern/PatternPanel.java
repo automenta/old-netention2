@@ -1,5 +1,6 @@
 package automenta.netention.swingui.pattern;
 
+import automenta.netention.swingui.util.JHyperLink;
 import automenta.netention.swingui.*;
 import automenta.netention.api.Network;
 import automenta.netention.api.Pattern;

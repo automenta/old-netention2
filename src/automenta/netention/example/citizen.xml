@@ -2,37 +2,37 @@
 
 	<pattern id="Built">
 		Something that is built or manufactured
-		<extend id="PhysicalThing"/>
 		<string id="builder" name="Builder Name"/>
 		<string id="serialID" name="Serial Number"/>
 		<timepoint id="builtWhen" name="When Built"/>
 	</pattern>
 	
-	<pattern id="Owned">
+	<pattern id="Owned" name="Owned">
 		Something that is or can be owned, and possibly change ownership
-		<node id="owner" class="Agent"/>
-		<node id="ownerNext" name="Next Owner" class="Agent"/>
+		<node id="owner" class="Being"/>
+		<node id="ownerNext" name="Next Owner" class="Being"/>
 	</pattern>
 
-	<pattern id="Valued">
+	<pattern id="Valued" name="Worth Something">
 		Value of something; how much its worth
 	</pattern>
     
-	<pattern id="DollarValued" name="US Dollar ($) Value">
+	<pattern id="DollarValued" name="Worth US Dollars ($)">
 		Dollar value
         <extend id="Valued"/>
 	</pattern>
 
-	<pattern id="ThingValued" name="Same Value As...">
+	<pattern id="ThingValued" name="Worth the Same Value as...">
 		Has a value that is the same as other objects
         <node id="valuedSimilarlyTo" name="Valued Similarly To" maxMult="-1"/>
         <extend id="Valued"/>
 	</pattern>
 
-	<pattern id="Rented">
+	<pattern id="Rented" name="Rentable">
 		Something that is or can be rented/loaned/leased/borrowed
-		<node id="renter" class="Agent"/>
-		<node id="renterNext" name="Next Renter" class="Agent"/>
+        <extend id="Owned"/>
+		<node id="renter" class="Being"/>
+		<node id="renterNext" name="Next Renter" class="Being"/>
 		<real id="dailyCost" name="Daily Cost" unit="currency"/>
 	</pattern>
 	
@@ -55,7 +55,6 @@
     </pattern>
 
 	<pattern id="Event">
-		<extend id="Located"/>
 		<timepoint id="startTime" name="Start Time"/>
 		<timepoint id="endTime" name="End Time"/>
 	</pattern>
@@ -70,9 +69,7 @@
         Project or goal
     </pattern>
 
-	<pattern id="PhysicalThing" name="Physical Thing">
-		<extend id="Located"/>
-        
+	<pattern id="PhysicalThing" name="Physical Object">
 		<string id="color" maxMult="-1">
 			Predominant exterior color
 		</string>
@@ -95,7 +92,6 @@
 
 	<pattern id="Built">
 		Something that is built or manufactured
-		<extend id="PhysicalThing"/>
 		<string id="builder" name="Builder Name"/>
 		<string id="serialID" name="Serial Number"/>
 		<timepoint id="builtWhen" name="When Built"/>		
@@ -103,11 +99,6 @@
 
 	<pattern id="Being">
 		Life form
-		<extend id="Located"/>
-		<extend id="Built"/>
-	</pattern>
-
-	<pattern id="Agent">
 	</pattern>
 
     <pattern id="Animal">
@@ -117,16 +108,15 @@
 	<pattern id="Human">
 		Human being
 		<extend id="Being"/>
-		<extend id="Agent"/>
 		<string id="firstName" name="First Name"/>
 		<string id="lastName" name="Last Name"/>
 		<string id="biography"/> <!-- richtext -->
+		<string id="emailAddress" name="EMail Address"/>
+		<string id="webURL" name="Website"/>
 	</pattern>
 
 	<pattern id="Bicycle">
 		<extend id="Built"/>
-		<extend id="Mobile"/>
-		<extend id="Owned"/>
 		<int id="gearCount" name="Gear Count"/>
 		<real id="wheelDiameter" name="Wheel Diameter" unit="distance"/>
 		<string id="bicycleType" name="Bicycle Type">
@@ -141,12 +131,8 @@
 		</string>		
 	</pattern>
 
-	<pattern id="Building">
-		<extend id="Located"/>
-	</pattern>
-
 	<pattern id="Dwelling">
-		<extend id="Located"/>
+		<extend id="Built"/>
 		<int id="numBedrooms" name="Number of Bedrooms"/>
 	</pattern>
 	
@@ -154,29 +140,29 @@
 		<extend id="Built"/>
     </pattern>
 
-	<pattern id="OnlineAccount">
+	<pattern id="OnlineAccount" name="Online Account">
         <string id="login" name="Login" minMult="1" maxMult="1"/>
         <string type="password" id="password" name="Password" minMult="1" maxMult="1"/>
     </pattern>
 
-    <pattern id="TwitterAccount">
+    <pattern id="TwitterAccount" name="Twitter Account">
         Twitter Account
         <extend id="OnlineAccount"/>
     </pattern>
     
-    <pattern id="FaceBookAccount">
+    <pattern id="FaceBookAccount" name="FaceBook Account">
         FaceBook Account
         <extend id="OnlineAccount"/>
     </pattern>
 
-    <pattern id="GoogleAccount">
+    <pattern id="GoogleAccount" name="Google Account">
         Google Account
         <extend id="OnlineAccount"/>
     </pattern>
 
-    <pattern id="MotorVehicle">
+
+    <pattern id="MotorVehicle" name="Motor Vehicle">
         <extend id="Built"/>
-        <extend id="Located"/>
     </pattern>
 
     <pattern id="Test">Test</pattern>

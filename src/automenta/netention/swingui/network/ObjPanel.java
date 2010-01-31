@@ -1,4 +1,4 @@
-package automenta.netention.swingui;
+package automenta.netention.swingui.network;
 
 import automenta.netention.swingui.pattern.PatternPanel;
 import automenta.netention.swingui.agent.AgentPanel;

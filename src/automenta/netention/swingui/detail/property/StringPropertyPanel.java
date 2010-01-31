@@ -50,7 +50,7 @@ public class StringPropertyPanel extends OptionPropertyPanel {
 
 				setIs();
 
-				JPanel p = new JPanel(new FlowLayout());
+				JPanel p =  new TransparentFlowPanel();
                 rta = new JTextField(value.getString());
                 p.add(rta);
 
@@ -102,7 +102,7 @@ public class StringPropertyPanel extends OptionPropertyPanel {
 				setValue(value);
 				setWillBe();
 
-				JPanel p = new JPanel(new FlowLayout());
+				JPanel p =  new TransparentFlowPanel();
 				eqBox = new JTextField();
 				eqBox.setText(value.getString());
 				p.add(eqBox);
@@ -131,7 +131,7 @@ public class StringPropertyPanel extends OptionPropertyPanel {
 				setValue(value);
 				setWillBe();
 
-				JPanel p = new JPanel(new FlowLayout());
+				JPanel p =  new TransparentFlowPanel();
 				eqBox = new JTextField();
 				eqBox.setText(value.getString());
 				p.add(eqBox);
@@ -160,7 +160,7 @@ public class StringPropertyPanel extends OptionPropertyPanel {
 				setValue(value);
 				setWillBe();
 
-				JPanel p = new JPanel(new FlowLayout());
+				JPanel p =  new TransparentFlowPanel();
 				eqBox = new JTextField();
 				eqBox.setText(value.getString());
 				p.add(eqBox);

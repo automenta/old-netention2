@@ -17,9 +17,6 @@ import automenta.netention.api.value.real.RealLessThan;
 import automenta.netention.api.value.real.RealMoreThan;
 import automenta.netention.api.value.real.RealVar;
 
-import automenta.netention.gwtdepr.ui.detail.property.PropertyPanel.PropertyTextBox;
-import java.awt.FlowLayout;
-import java.awt.Label;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -41,7 +38,7 @@ public class RealPropertyPanel extends OptionPropertyPanel {
 			@Override public JPanel newEditPanel(RealIs v) {
 				setValue(v);
 				setIs();
-				JPanel p = new JPanel(new FlowLayout());
+				JPanel p =  new TransparentFlowPanel();
 				isBox = new JTextField(Double.toString(v.getValue()));
 				p.add(isBox);
 				return p;
@@ -66,7 +63,7 @@ public class RealPropertyPanel extends OptionPropertyPanel {
 				setValue(v);
 				setWillBe();
 
-				JPanel p = new JPanel(new FlowLayout());
+				JPanel p =  new TransparentFlowPanel();
 				equalsBox = new JTextField(Double.toString(v.getValue()));
 				p.add(equalsBox);
 				return p;
@@ -91,7 +88,7 @@ public class RealPropertyPanel extends OptionPropertyPanel {
 				setValue(v);
 				setWillBe();
 
-				JPanel p = new JPanel(new FlowLayout());
+				JPanel p =  new TransparentFlowPanel();
 				moreThanBox = new JTextField(Double.toString(v.getValue()));
 				p.add(moreThanBox);
 				return p;
@@ -116,7 +113,7 @@ public class RealPropertyPanel extends OptionPropertyPanel {
 				setValue(v);
 				setWillBe();
 
-				JPanel p = new JPanel(new FlowLayout());
+				JPanel p =  new TransparentFlowPanel();
 				lessThanBox = new JTextField(Double.toString(v.getValue()));
 				p.add(lessThanBox);
 				return p;
@@ -145,11 +142,12 @@ public class RealPropertyPanel extends OptionPropertyPanel {
 				setValue(v);
 				setWillBe();
 				
-				JPanel p = new JPanel();
+				JPanel p =  new TransparentFlowPanel();
 				minBox = new JTextField(Double.toString(v.getMin()));
 				p.add(minBox);
 
-				p.add(new Label(" and "));
+                JLabel l = new JLabel(" and ");
+				p.add(l);
 				
 				maxBox = new JTextField(Double.toString(v.getMax()));
 				p.add(maxBox);

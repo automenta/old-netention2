@@ -1,4 +1,4 @@
-package automenta.netention.swingui;
+package automenta.netention.swingui.util;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;

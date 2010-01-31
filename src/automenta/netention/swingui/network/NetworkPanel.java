@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package automenta.netention.swingui;
+package automenta.netention.swingui.network;
 
 import automenta.netention.swingui.pattern.PatternsNode;
 import automenta.netention.api.Agent;

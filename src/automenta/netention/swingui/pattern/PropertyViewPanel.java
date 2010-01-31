@@ -1,4 +1,4 @@
-package automenta.netention.swingui;
+package automenta.netention.swingui.pattern;
 
 import automenta.netention.api.value.Property;
 import java.awt.BorderLayout;

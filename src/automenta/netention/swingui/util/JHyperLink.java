@@ -1,4 +1,4 @@
-package automenta.netention.swingui;
+package automenta.netention.swingui.util;
 
 import java.awt.Cursor;
 import java.awt.Font;
