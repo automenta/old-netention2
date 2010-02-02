@@ -1,6 +1,6 @@
 package automenta.netention.webui;
 
-import automenta.netention.api.Network;
+import automenta.netention.Self;
 import automenta.netention.webui.NetworkPanel;
 import automenta.netention.webui.SchemaPanel;
 import automenta.netention.webui.StoryPanel;
@@ -15,9 +15,9 @@ import nextapp.echo.app.event.WindowPaneListener;
 public class MainApp extends ApplicationInstance {
 
     public final static String  VERSION = "Netention 0.1";
-    private final Network network;
+    private final Self network;
 
-    public MainApp(Network network) {
+    public MainApp(Self network) {
         super();
         this.network = network;
     }

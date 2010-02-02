@@ -1,6 +1,6 @@
 package automenta.netention.swingui.pattern;
 
-import automenta.netention.api.value.Property;
+import automenta.netention.value.Property;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;

@@ -6,7 +6,7 @@ package automenta.netention.gwtdepr.ui.pattern;
 import automenta.netention.gwtdepr.NetworkService;
 import automenta.netention.gwtdepr.NetworkServiceAsync;
 import automenta.netention.gwtdepr.data.PatternData;
-import automenta.netention.api.value.Property;
+import automenta.netention.value.Property;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;

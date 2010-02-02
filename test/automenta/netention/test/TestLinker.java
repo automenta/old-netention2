@@ -3,14 +3,14 @@ package automenta.netention.test;
 import java.util.Collection;
 
 import junit.framework.TestCase;
-import automenta.netention.example.ExampleNetwork;
+import automenta.netention.example.ExampleSelf;
 import automenta.netention.serverdepr.Agent;
 import automenta.netention.serverdepr.Message;
 
 public class TestLinker extends TestCase {
 
 	public void testLinker() throws Exception {
-		ExampleNetwork net = new ExampleNetwork();
+		ExampleSelf net = new ExampleSelf();
 		
 //		EsperLinker weaver = new EsperLinker(net) {
 //			@Override protected void emitLink(DetailLink weaveLink) {

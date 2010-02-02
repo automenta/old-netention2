@@ -5,7 +5,7 @@
 
 package automenta.netention.swingui.bot;
 
-import automenta.netention.net.PlexusGraph;
+import automenta.netention.Memory;
 import automenta.netention.swingui.util.SwingWindow;
 
 /**
@@ -15,6 +15,6 @@ import automenta.netention.swingui.util.SwingWindow;
 public class RunBot {
 
     public static void main(String[] args) {
-        new SwingWindow(new BotPanel(new PlexusGraph()), 900, 700, true);
+        new SwingWindow(new BotPanel(new Memory()), 900, 700, true);
     }
 }

@@ -1,8 +1,8 @@
 package automenta.netention.swingui.detail;
 
-import automenta.netention.api.Detail;
-import automenta.netention.api.Pattern;
-import automenta.netention.api.Schema;
+import automenta.netention.node.Detail;
+import automenta.netention.Pattern;
+import automenta.netention.Schema;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collection;

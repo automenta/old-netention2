@@ -5,10 +5,10 @@ package automenta.netention.gwtdepr.ui.detail.property;
 
 import java.util.List;
 
-import automenta.netention.api.value.PropertyValue;
-import automenta.netention.api.value.Value;
-import automenta.netention.api.value.integer.IntegerEquals;
-import automenta.netention.api.value.integer.IntegerIs;
+import automenta.netention.value.PropertyValue;
+import automenta.netention.value.Value;
+import automenta.netention.value.integer.IntegerEquals;
+import automenta.netention.value.integer.IntegerIs;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;

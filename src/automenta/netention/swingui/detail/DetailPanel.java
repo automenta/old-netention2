@@ -4,16 +4,16 @@
  */
 package automenta.netention.swingui.detail;
 
-import automenta.netention.api.Detail;
-import automenta.netention.api.Network;
-import automenta.netention.api.Pattern;
-import automenta.netention.api.Schema;
-import automenta.netention.api.value.Property;
-import automenta.netention.api.value.PropertyValue;
-import automenta.netention.api.value.integer.IntegerVar;
-import automenta.netention.api.value.real.RealVar;
-import automenta.netention.api.value.string.StringVar;
-import automenta.netention.swingui.agent.AgentPanel;
+import automenta.netention.node.Detail;
+import automenta.netention.Self;
+import automenta.netention.Pattern;
+import automenta.netention.Schema;
+import automenta.netention.value.Property;
+import automenta.netention.value.PropertyValue;
+import automenta.netention.value.integer.IntegerVar;
+import automenta.netention.value.real.RealVar;
+import automenta.netention.value.string.StringVar;
+import automenta.netention.swingui.SelfPanel;
 import automenta.netention.swingui.detail.property.IntPropertyPanel;
 import automenta.netention.swingui.detail.property.RealPropertyPanel;
 import automenta.netention.swingui.detail.property.StringPropertyPanel;
@@ -41,16 +41,16 @@ public class DetailPanel extends JPanel {
 
     JMenuBar menu = new JMenuBar();
     private JPanel content = new JPanel(new BorderLayout());
-    private final Network network;
+    private final Self network;
     private Detail detail;
 
-    public DetailPanel(Network n) {
+    public DetailPanel(Self n) {
         super(new BorderLayout());
 
         this.network = n;
     }
 
-    public DetailPanel(Network n, Detail d) {
+    public DetailPanel(Self n, Detail d) {
         this(n);
         setDetail(d);
     }
@@ -59,7 +59,7 @@ public class DetailPanel extends JPanel {
         menu.removeAll();
 
         JMenu detailMenu = new JMenu(d.getName());
-        detailMenu.setFont(AgentPanel.FontH1);
+        detailMenu.setFont(SelfPanel.FontH1);
 
         //detailMenu.add(new JMenuItem("Copy as mine"));
         detailMenu.add(new JMenuItem("Rename"));
@@ -120,7 +120,7 @@ public class DetailPanel extends JPanel {
 
     public static class LinkPanel extends JPanel {
 
-        private LinkPanel(Network network, Detail d) {
+        private LinkPanel(Self network, Detail d) {
             super(new BorderLayout());
             JTabbedPane tabs = new JTabbedPane();
             tabs.addTab("Satisfying", new JPanel());

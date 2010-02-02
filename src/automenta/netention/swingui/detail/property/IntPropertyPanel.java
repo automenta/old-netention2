@@ -3,14 +3,14 @@
  */
 package automenta.netention.swingui.detail.property;
 
-import automenta.netention.api.Detail;
-import automenta.netention.api.Schema;
+import automenta.netention.node.Detail;
+import automenta.netention.Schema;
 import java.util.List;
 
-import automenta.netention.api.value.PropertyValue;
-import automenta.netention.api.value.Value;
-import automenta.netention.api.value.integer.IntegerEquals;
-import automenta.netention.api.value.integer.IntegerIs;
+import automenta.netention.value.PropertyValue;
+import automenta.netention.value.Value;
+import automenta.netention.value.integer.IntegerEquals;
+import automenta.netention.value.integer.IntegerIs;
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;

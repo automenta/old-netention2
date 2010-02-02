@@ -8,7 +8,7 @@ import java.util.Arrays;
 import automenta.netention.gwtdepr.NetworkService;
 import automenta.netention.gwtdepr.NetworkServiceAsync;
 import automenta.netention.gwtdepr.data.DetailData;
-import automenta.netention.api.value.Property;
+import automenta.netention.value.Property;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;

@@ -2,9 +2,9 @@ package automenta.netention.swingui.pattern;
 
 import automenta.netention.swingui.util.JHyperLink;
 import automenta.netention.swingui.*;
-import automenta.netention.api.Network;
-import automenta.netention.api.Pattern;
-import automenta.netention.api.value.Property;
+import automenta.netention.Self;
+import automenta.netention.Pattern;
+import automenta.netention.value.Property;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 
 public class PatternPanel extends JPanel {
 
-    public PatternPanel(Network network, Pattern p) {
+    public PatternPanel(Self network, Pattern p) {
         super();
         setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();

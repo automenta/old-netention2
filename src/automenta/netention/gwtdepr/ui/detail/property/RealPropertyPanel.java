@@ -5,15 +5,15 @@ package automenta.netention.gwtdepr.ui.detail.property;
 
 import java.util.List;
 
-import automenta.netention.api.value.PropertyValue;
-import automenta.netention.api.value.Unit;
-import automenta.netention.api.value.Value;
-import automenta.netention.api.value.real.RealBetween;
-import automenta.netention.api.value.real.RealEquals;
-import automenta.netention.api.value.real.RealIs;
-import automenta.netention.api.value.real.RealLessThan;
-import automenta.netention.api.value.real.RealMoreThan;
-import automenta.netention.api.value.real.RealVar;
+import automenta.netention.value.PropertyValue;
+import automenta.netention.value.Unit;
+import automenta.netention.value.Value;
+import automenta.netention.value.real.RealBetween;
+import automenta.netention.value.real.RealEquals;
+import automenta.netention.value.real.RealIs;
+import automenta.netention.value.real.RealLessThan;
+import automenta.netention.value.real.RealMoreThan;
+import automenta.netention.value.real.RealVar;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;

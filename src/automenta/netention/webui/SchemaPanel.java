@@ -4,9 +4,9 @@
  */
 package automenta.netention.webui;
 
-import automenta.netention.api.Pattern;
-import automenta.netention.api.Schema;
-import automenta.netention.api.value.Property;
+import automenta.netention.Pattern;
+import automenta.netention.Schema;
+import automenta.netention.value.Property;
 import nextapp.echo.app.Color;
 import nextapp.echo.app.Column;
 import nextapp.echo.app.Extent;

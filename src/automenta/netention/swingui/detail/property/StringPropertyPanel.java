@@ -1,16 +1,16 @@
 package automenta.netention.swingui.detail.property;
 
-import automenta.netention.api.Detail;
-import automenta.netention.api.Schema;
+import automenta.netention.node.Detail;
+import automenta.netention.Schema;
 import java.util.List;
 
-import automenta.netention.api.value.PropertyValue;
-import automenta.netention.api.value.Value;
-import automenta.netention.api.value.string.StringContains;
-import automenta.netention.api.value.string.StringEquals;
-import automenta.netention.api.value.string.StringIs;
-import automenta.netention.api.value.string.StringNotContains;
-import automenta.netention.api.value.string.StringVar;
+import automenta.netention.value.PropertyValue;
+import automenta.netention.value.Value;
+import automenta.netention.value.string.StringContains;
+import automenta.netention.value.string.StringEquals;
+import automenta.netention.value.string.StringIs;
+import automenta.netention.value.string.StringNotContains;
+import automenta.netention.value.string.StringVar;
 import java.awt.FlowLayout;
 import javax.swing.JPanel;
 import javax.swing.JTextField;

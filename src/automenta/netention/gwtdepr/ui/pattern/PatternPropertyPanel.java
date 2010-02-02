@@ -3,7 +3,7 @@
  */
 package automenta.netention.gwtdepr.ui.pattern;
 
-import automenta.netention.api.value.Property;
+import automenta.netention.value.Property;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;

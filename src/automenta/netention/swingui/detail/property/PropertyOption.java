@@ -3,8 +3,8 @@
  */
 package automenta.netention.swingui.detail.property;
 
-import automenta.netention.api.value.PropertyValue;
-import automenta.netention.api.value.Value;
+import automenta.netention.value.PropertyValue;
+import automenta.netention.value.Value;
 
 import javax.swing.JPanel;
 

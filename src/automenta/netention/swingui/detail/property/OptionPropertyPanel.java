@@ -1,13 +1,13 @@
 package automenta.netention.swingui.detail.property;
 
-import automenta.netention.api.Detail;
-import automenta.netention.api.Schema;
-import automenta.netention.api.value.Property;
+import automenta.netention.node.Detail;
+import automenta.netention.Schema;
+import automenta.netention.value.Property;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import automenta.netention.api.value.PropertyValue;
+import automenta.netention.value.PropertyValue;
 import automenta.netention.swingui.util.JHyperLink;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;

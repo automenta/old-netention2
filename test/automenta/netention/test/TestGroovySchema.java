@@ -4,8 +4,8 @@ import java.net.URI;
 
 import junit.framework.TestCase;
 import automenta.netention.serverdepr.Agent;
-import automenta.netention.api.NetworkBuilder;
-import automenta.netention.api.Pattern;
+import automenta.netention.io.XMLSchemaBuilder;
+import automenta.netention.Pattern;
 import automenta.netention.serverdepr.impl.DefaultNetwork;
 
 public class TestGroovySchema extends TestCase {
@@ -15,7 +15,7 @@ public class TestGroovySchema extends TestCase {
 		DefaultNetwork n = new DefaultNetwork();
 		URI schema1 = new URI("file:/work/ew/netention/automenta.netention.example/schema/schema1.groovy");
 		
-		NetworkBuilder.loadGroovyScript(n, schema1);
+		XMLSchemaBuilder.loadGroovyScript(n, schema1);
 	
 		for (Pattern p : n.getSchema().getPatterns().values()) {
 			System.out.println(p);

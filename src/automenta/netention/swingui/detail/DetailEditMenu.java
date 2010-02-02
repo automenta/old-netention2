@@ -1,13 +1,10 @@
 package automenta.netention.swingui.detail;
 
-import automenta.netention.api.Detail;
-import automenta.netention.api.Pattern;
-import automenta.netention.api.Schema;
+import automenta.netention.node.Detail;
+import automenta.netention.Pattern;
+import automenta.netention.Schema;
 
-import automenta.netention.gwtdepr.data.DetailData;
-import automenta.netention.gwtdepr.data.PatternData;
-import automenta.netention.gwtdepr.data.PatternDataEx;
-import automenta.netention.api.value.Property;
+import automenta.netention.value.Property;
 import java.awt.MenuBar;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -239,7 +236,7 @@ abstract public class DetailEditMenu extends JMenuBar {
     /** causes a refresh() indirectly */
     abstract protected void refreshProperties();
 
-    protected static boolean hasDefinedPattern(DetailData pd, String p) {
+    protected static boolean hasDefinedPattern(Detail pd, String p) {
         for (String s : pd.getPatterns()) {
             if (s.equals(p)) {
                 return true;
@@ -248,7 +245,7 @@ abstract public class DetailEditMenu extends JMenuBar {
         return false;
     }
 
-    protected boolean hasInheritedPattern(DetailData pd, String p) {
+    protected boolean hasInheritedPattern(Detail pd, String p) {
         return inheritedPatterns.contains(p);
     }
 }

@@ -4,9 +4,9 @@
  */
 package automenta.netention.swingui.bot;
 
-import automenta.netention.net.Concept;
-import automenta.netention.net.PlexusGraph;
-import automenta.netention.net.Twitter;
+import automenta.netention.swingui.detail.GraphPanel;
+import automenta.netention.Memory;
+import automenta.netention.io.Twitter;
 import edu.uci.ics.jung.algorithms.filters.KNeighborhoodFilter;
 import edu.uci.ics.jung.algorithms.filters.KNeighborhoodFilter.EdgeType;
 import edu.uci.ics.jung.algorithms.layout.SpringLayout;
@@ -47,34 +47,23 @@ import javax.swing.event.ListSelectionListener;
 public class BotPanel extends JPanel {
 
     private JList pList;
-    private PlexusListModel listModel;
-    private final PlexusGraph p;
+    private DefaultListModel listModel;
+    private final Memory p;
     private final Twitter t;
     private PageRank<Object, Double> pr;
     private Graph subgraph = new DirectedSparseMultigraph();
-    private SpringLayout layout;
-
     int subgraphHops = 3;
-    
-    public static class PlexusListModel extends DefaultListModel {
+    private GraphPanel graphPanel;
 
-        private final PlexusGraph p;
-
-        public PlexusListModel(PlexusGraph p) {
-            super();
-
-            this.p = p;
-
-        }
-    }
 
     public class PlexusIndex extends JPanel {
 
-        public PlexusIndex(PlexusGraph p) {
+        public PlexusIndex(Memory p) {
             super(new BorderLayout());
 
             pList = new JList(listModel);
             pList.addListSelectionListener(new ListSelectionListener() {
+
                 public void valueChanged(ListSelectionEvent e) {
                     updateSubGraph(pList.getSelectedValue());
                 }
@@ -93,8 +82,8 @@ public class BotPanel extends JPanel {
                     if (isSelected) {
                         j.setBackground(Color.ORANGE);
                     } else {
-                        float af = (float)a;
-                        Color c = new Color( 20.0f *af, 10.0f * af, 0.0f);
+                        float af = (float) a;
+                        Color c = new Color(20.0f * af, 10.0f * af, 0.0f);
                         j.setBackground(c);
                     }
 
@@ -114,7 +103,7 @@ public class BotPanel extends JPanel {
 
     public class ActionPanel extends JPanel {
 
-        public ActionPanel(final PlexusGraph pg, final Twitter t) {
+        public ActionPanel(final Memory pg, final Twitter t) {
             super(new FlowLayout());
 
             JButton tlButton = new JButton("Public Timeline");
@@ -134,12 +123,12 @@ public class BotPanel extends JPanel {
         }
     }
 
-    public BotPanel(PlexusGraph p) {
+    public BotPanel(Memory p) {
         super(new BorderLayout());
 
         this.p = p;
         this.t = new Twitter();
-        this.listModel = new PlexusListModel(p);
+        this.listModel = new DefaultListModel();
 
         refresh();
 
@@ -169,28 +158,14 @@ public class BotPanel extends JPanel {
         });
 
         for (Object o : obj) {
-          listModel.addElement(o);
+            listModel.addElement(o);
         }
 
         add(new PlexusIndex(p), BorderLayout.WEST);
         add(new ActionPanel(p, t), BorderLayout.NORTH);
 
-        JPanel j = new JPanel(new BorderLayout());
-        layout = new SpringLayout(subgraph);
-        layout.setSize(new Dimension(900, 700));
-        VisualizationViewer<Integer, String> vv = new VisualizationViewer<Integer, String>(layout);
-        //vv.setPreferredSize(new Dimension(350, 350));
-
-        // Show vertex and edge labels
-        vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
-        vv.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller());
-
-        // Create a graph mouse and add it to the visualization component
-        DefaultModalGraphMouse gm = new DefaultModalGraphMouse();
-        gm.setMode(ModalGraphMouse.Mode.TRANSFORMING);
-        vv.setGraphMouse(gm);
-        j.add(vv, BorderLayout.CENTER);
-        add(new JScrollPane(j), BorderLayout.CENTER);
+        graphPanel = new GraphPanel(subgraph);
+        add(new JScrollPane(graphPanel), BorderLayout.CENTER);
 
         updateUI();
     }
@@ -203,6 +178,6 @@ public class BotPanel extends JPanel {
             return;
         }
         subgraph = new KNeighborhoodFilter(focus, subgraphHops, EdgeType.IN_OUT).transform(p.graph);
-        layout.setGraph(subgraph);
+        graphPanel.getGraphLayout().setGraph(subgraph);
     }
 }
