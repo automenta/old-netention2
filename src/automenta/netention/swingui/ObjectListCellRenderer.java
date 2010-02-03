@@ -71,7 +71,7 @@ public class ObjectListCellRenderer implements ListCellRenderer {
             float af = (float)a;
             float bf = 0.55f + (af * 0.4f) + ((index % 2 == 1) ? 0.05f : 0f);
 
-            float h = ((float)value.getClass().hashCode()) / ((float)Integer.MAX_VALUE);
+            float h = getHue(value);
             bgColor = Color.getHSBColor(h, 0.5f + bf*0.5f, 0.5f+bf*0.5f);
 
             //bgColor = new Color(bf, bf, 0.0f);
@@ -94,5 +94,9 @@ public class ObjectListCellRenderer implements ListCellRenderer {
         j.setBackground(bgColor);
 
         return j;
+    }
+
+    public static float getHue(Object value) {
+        return ((float)value.getClass().hashCode()) / ((float)Integer.MAX_VALUE);
     }
 }

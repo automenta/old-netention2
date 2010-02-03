@@ -87,17 +87,16 @@ public class SelfPanel extends JPanel implements ListSelectionListener {
         }
     }
 
-    public class DetailSelectPanel extends JPanel {
+    public class DetailSelectPanel extends JSplitPane {
 
         public DetailSelectPanel() {
-            super(new BorderLayout());
+            super(JSplitPane.VERTICAL_SPLIT);
 
             //left: list of details
             dList = new JList(refreshObjectList());
             dList.setCellRenderer(new ObjectListCellRenderer(SelfPanel.this));
             dList.addListSelectionListener(SelfPanel.this);
 
-            add(new JScrollPane(dList), BorderLayout.CENTER);
 
             JPanel indexPanel = new JPanel(new BorderLayout());
 
@@ -119,9 +118,11 @@ public class SelfPanel extends JPanel implements ListSelectionListener {
             });
             indexPanel.add(newButton, BorderLayout.WEST);
 
-            indexPanel.add(focusPanel, BorderLayout.CENTER);
+            indexPanel.add(new JScrollPane(focusPanel), BorderLayout.CENTER);
 
-            add(indexPanel, BorderLayout.NORTH);
+
+            setTopComponent(indexPanel);
+            setBottomComponent(new JScrollPane(dList));
 
         }
     }
