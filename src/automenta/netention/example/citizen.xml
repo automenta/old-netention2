@@ -59,6 +59,25 @@
 		<timepoint id="endTime" name="End Time"/>
 	</pattern>
 
+    <pattern id="Reservation">
+        A reservation, ticket, or other reservable activity.  Ex: Restaurants, Shows, etc...
+        <extend id="Event"/>
+    </pattern>
+
+    <pattern id="RestaurantVisit" name="Restaurant Visit">
+            <extend id="Reservation"/>
+    </pattern>
+
+    <pattern id="MovieShowing" name="Movie Showing">
+            <extend id="Reservation"/>
+    </pattern>
+
+    <pattern id="Carpool" name="Carpool">
+            <extend id="Event"/>
+            <extend id="Mobile"/>
+    </pattern>
+
+
     <pattern id="Gig">
         Job with fixed start and stop time.
         <extend id="Event"/>

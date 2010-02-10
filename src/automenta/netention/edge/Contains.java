@@ -13,7 +13,7 @@ public class Contains {
 
     @Override
     public String toString() {
-        return "contains";
+        return "in";
     }
 
 

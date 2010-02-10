@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 public class ExampleSelf extends Self {
 
     public ExampleSelf() {
-        super();
+        super("xyz", "Sam Smith");
 
         initSchema();
         initAgents();

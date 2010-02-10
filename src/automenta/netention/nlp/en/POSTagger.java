@@ -4,10 +4,15 @@
  */
 package automenta.netention.nlp.en;
 
+import automenta.netention.edge.MentionedBy;
+import automenta.netention.edge.Mentions;
+import automenta.netention.edge.Next;
+import automenta.netention.node.Concept;
 import edu.stanford.nlp.ling.HasWord;
 import edu.stanford.nlp.ling.Sentence;
 import edu.stanford.nlp.ling.TaggedWord;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
+import edu.uci.ics.jung.graph.DirectedGraph;
 import java.io.StringReader;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,11 +24,12 @@ import java.util.List;
 public class POSTagger {
     //slow and accurate
     //String modelFile = "./lib/stanford-pos/models/bidirectional-distsim-wsj-0-18.tagger";
-    
+
     //faster
     String modelFile = "./lib/stanford-pos/models/left3words-wsj-0-18.tagger";
-
     private final MaxentTagger tagger;
+    boolean bidirectional = false;
+    boolean sequenceLinks = true;
 
     public POSTagger() throws Exception {
         super();
@@ -45,8 +51,68 @@ public class POSTagger {
                 //System.out.println(PorterStemming.stem(tw.word()) + " " + tw.word() + " " + tw.tag());
             }
         }
-        
+
         return words;
     }
-    
+
+    public void tag(Object m, String text, DirectedGraph pg) throws Exception {
+        List<TaggedWord> twl = getWords(text);
+
+        Concept prevConcept = null;
+        for (TaggedWord tw : twl) {
+            String w = tw.word();
+            String pos = tw.tag();
+
+            if (!w.startsWith("#")) {
+                if (!w.startsWith("@")) {
+                    if (w.length() > 2) {
+                        if (isValidPOS(pos)) {
+                            String psw = PorterStemming.stem(w);
+                            Concept c = new Concept(psw);
+
+                            //System.out.println(pos + " : " + c + " nodes=" + pg.getVertexCount() + " edges=" + pg.getEdgeCount());
+                            
+                            pg.addVertex(c);
+
+                            if (sequenceLinks) {
+                                if (prevConcept!=null) {
+                                    pg.addEdge(new Next(), prevConcept, c);
+                                }
+                            }
+
+                            pg.addEdge(new Mentions(), m, c);
+                            if (bidirectional) {
+                                pg.addEdge(new MentionedBy(), c, m);
+                            }
+
+                            prevConcept = c;
+                        }
+                    }
+                }
+            }
+
+        }
+
+    }
+
+        public boolean isValidPOS(String tag) {
+        if (tag.equals("NN")) {
+            return true;
+        }
+        if (tag.equals("NNS")) {
+            return true;
+        }
+        if (tag.equals("NNP")) {
+            return true;
+        }
+        if (tag.equals("VB")) {
+            return true;
+        }
+        if (tag.equals("VBG")) {
+            return true;
+        }
+        return false;
+    }
+
+
 }

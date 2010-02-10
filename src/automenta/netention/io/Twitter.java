@@ -18,7 +18,6 @@ import automenta.netention.edge.RetweetedBy;
 import automenta.netention.nlp.en.POSTagger;
 import automenta.netention.nlp.en.PorterStemming;
 import edu.stanford.nlp.ling.TaggedWord;
-import edu.uci.ics.jung.graph.util.EdgeType;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -31,19 +30,20 @@ import twitter4j.User;
  *
  * @author seh
  */
-public class Twitter extends twitter4j.Twitter {
+public class Twitter extends twitter4j.Twitter implements Sends {
+    private final POSTagger tagger;
 
-    private POSTagger tagger;
-
-    public Twitter() {
+    public Twitter(POSTagger tagger) {
         super();
 
-        try {
-            this.tagger = new POSTagger();
-        } catch (Exception ex) {
-            Logger.getLogger(Twitter.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.tagger = tagger;
     }
+
+    @Override
+    public String toString() {
+        return "Twitter";
+    }
+
 
     protected void updateMentions(final Memory pg, Status s, final Message m) {
         final List<String> users = new LinkedList();
@@ -97,50 +97,10 @@ public class Twitter extends twitter4j.Twitter {
         }
 
         try {
-            List<TaggedWord> twl = tagger.getWords(s.getText());
-            for (TaggedWord tw : twl) {
-                String w = tw.word();
-                String pos = tw.tag();
-
-                if (!w.startsWith("#")) {
-                    if (!w.startsWith("@")) {
-                        if (w.length() > 2) {
-                            if (isValidPOS(pos)) {
-                                String psw = PorterStemming.stem(w);
-                                Concept c = new Concept(psw);
-                                System.out.println(pos + " : " + c + " nodes=" + pg.graph.getVertexCount() + " edges=" + pg.graph.getEdgeCount());
-                                pg.graph.addVertex(c);
-                                pg.graph.addEdge(new Mentions(), m, c);
-                                pg.graph.addEdge(new MentionedBy(), c, m);
-                            }
-                        }
-                    }
-                }
-
-
-            }
+            tagger.tag(m, s.getText(), pg.graph);
         } catch (Exception e) {
             System.err.println(e);
         }
-    }
-
-    public boolean isValidPOS(String tag) {
-        if (tag.equals("NN")) {
-            return true;
-        }
-        if (tag.equals("NNS")) {
-            return true;
-        }
-        if (tag.equals("NNP")) {
-            return true;
-        }
-        if (tag.equals("VB")) {
-            return true;
-        }
-        if (tag.equals("VBG")) {
-            return true;
-        }
-        return false;
     }
 
     public void addStatus(Memory pg, Status s) {
@@ -172,5 +132,14 @@ public class Twitter extends twitter4j.Twitter {
         for (Status s : getPublicTimeline()) {
             addStatus(pg, s);
         }
+    }
+
+    public boolean canSend(Message m) {
+        //TODO more aggressive twitter uid pattern matching here
+        return m.getTo().startsWith("@");
+    }
+
+    public void send(Message m, Async a) {
+        a.onError(new Exception("TODO send twitter"));
     }
 }

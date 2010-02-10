@@ -13,7 +13,12 @@ public class Concept {
     private final String c;
 
     public Concept(String id) {
-        this.c = id.toLowerCase();
+        id = id.toLowerCase();
+        if (id.startsWith("\""))
+            id = id.substring(1);
+        if (id.endsWith("\""))
+            id = id.substring(0, id.length()-1);
+        this.c = id;
     }
 
     @Override

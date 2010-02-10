@@ -4,6 +4,7 @@
  */
 package automenta.netention;
 
+import automenta.netention.io.Async;
 import automenta.netention.node.*;
 import automenta.netention.linker.DetailLink;
 import automenta.netention.linker.Linker;
@@ -16,6 +17,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 
 /**
@@ -23,18 +28,24 @@ import java.util.logging.Logger;
  */
 public class Self {
 
+    final int numThreads = 12;
+    private Collection<Action> runningActions =  new CopyOnWriteArrayList();
+    private ExecutorService threadPool = Executors.newFixedThreadPool(numThreads);
     private static final Logger logger = Logger.getLogger(Self.class.toString());
     private Memory memory = new Memory();
     private final Schema schema;
     //private Map<String, Agent> agents = new HashMap();
     private Map<String, Object> nodeIndex = new HashMap();
     private Linker linker;
+    private final Agent agent;
 
-    public Self() {
+    public Self(String uid, String name) {
         super();
 
         this.schema = new Schema();
-        
+
+        agent = addNode(new Agent(uid, name));
+
 //		schema = new Schema() {
 //			@Override public Pattern newPattern(String id, String name) {
 //				Pattern p = super.newPattern(id, name);
@@ -119,6 +130,10 @@ public class Self {
         updateNode(p);
 
         return p;
+    }
+
+    public void addVertex(Object x) {
+        getMemory().graph.addVertex(x);
     }
 
     public <N extends Node> N addNode(N n) {
@@ -223,5 +238,53 @@ public class Self {
         return getMemory().graph.getVertices();
     }
 
-    
+    /** the agent concept of this self */
+    public Agent getAgent() {
+        return agent;
+    }
+
+    public <X> Collection<X> getAll(Class<? extends X> c) {
+        List<X> l = new LinkedList<X>();
+        for (Object y : getMemory().graph.getVertices()) {
+            if (c.isAssignableFrom(y.getClass())) {
+                l.add((X) y);
+            }
+        }
+        return l;
+    }
+
+    public <X> X getThe(Class<? extends X> c) {
+        for (Object y : getMemory().graph.getVertices()) {
+            if (c.isAssignableFrom(y.getClass())) {
+                return (X) y;
+            }
+        }
+        return null;
+    }
+
+    public Collection<Action> getRunningActions() {
+        return runningActions;
+    }
+
+    /** runs an action in the background */
+    public synchronized void run(final Action a, final Async callback) {
+        runningActions.add(a);
+
+        threadPool.submit(new Callable() {
+
+            public Object call() throws Exception {
+                Object result = null;
+                try {
+                    result = a.call();
+                    callback.onFinished(result);
+                } catch (Exception e) {
+                    callback.onError(e);
+                    result = e;
+                } finally {
+                    runningActions.remove(a);
+                }
+                return result;
+            }
+        });
+    }
 }

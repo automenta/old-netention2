@@ -4,70 +4,82 @@ import automenta.netention.swingui.pattern.PatternPanel;
 import automenta.netention.node.Detail;
 import automenta.netention.Self;
 import automenta.netention.Pattern;
-import automenta.netention.swingui.detail.DetailPanel;
-import automenta.netention.swingui.detail.GraphPanel;
-import edu.uci.ics.jung.algorithms.filters.KNeighborhoodFilter;
-import edu.uci.ics.jung.algorithms.filters.KNeighborhoodFilter.EdgeType;
-import edu.uci.ics.jung.graph.Graph;
+import automenta.netention.io.Sends;
+import automenta.netention.node.Message;
+import automenta.netention.swingui.object.DetailPanel;
+import automenta.netention.swingui.object.SendPanel;
+import automenta.netention.swingui.object.GraphPanel;
+import automenta.netention.swingui.object.SummaryPanel;
+import automenta.netention.swingui.object.NeighborhoodPanel;
+import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.util.LinkedList;
+import java.util.List;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.border.LineBorder;
 
 public class ObjPanel extends JPanel {
 
     private final Self self;
+    private final JTabbedPane tabs;
+    int borderThickness = 8;
+    private final DirectedSparseGraph graph;
 
     public ObjPanel(Self self) {
         super(new BorderLayout());
         this.self = self;
+        this.graph = self.getMemory().graph;
+
+        tabs = new JTabbedPane();
+        add(tabs, BorderLayout.CENTER);
+
     }
 
-//    public void setDetail(Detail d) {
-//        removeAll();
-//        updateUI();
-//    }
-//    public void setAgent(Agent a) {
-//        removeAll();
-//        add(new AgentPanel(network, a), BorderLayout.CENTER);
-//        updateUI();
-//    }
-    public void setPattern(Pattern p) {
-        removeAll();
-        add(new PatternPanel(self, p), BorderLayout.CENTER);
-        updateUI();
+    public ObjPanel(Self self, Object o) {
+        this(self);
+        setObject(o);
     }
 
-    public void setDetail(Detail d) {
-        removeAll();
-        add(new DetailPanel(self, d), BorderLayout.CENTER);
-        updateUI();
-    }
+    public void setObject(Object o) {
+        float h = ObjectListCellRenderer.getHue(o);
+        Color c = Color.getHSBColor(h, 0.5f + 0.5f, 0.5f + 0.5f);
 
-    public void setGraphPanel(Object o) {
-        removeAll();
+        setBorder(new LineBorder(c, borderThickness));
 
-        if (!self.getMemory().graph.containsVertex(o)) {
-        }
-        else {
-
-            int subgraphHops = 3;
-            Graph subgraph = new KNeighborhoodFilter(o, subgraphHops, EdgeType.IN_OUT).transform(self.getMemory().graph);
-            //graphPanel.getGraphLayout().setGraph(subgraph);
-
-            add(new GraphPanel(subgraph), BorderLayout.CENTER);
-        }
-        updateUI();
-    }
-
-    void setObject(Object o) {
         if (o instanceof Detail) {
-            setDetail((Detail) o);
-        } else if (o instanceof Pattern) {
-            setPattern((Pattern) o);
-        } else {
-            setGraphPanel(o);
+            tabs.add("Edit Details", new DetailPanel(self, (Detail) o));
+        }
+        if (o instanceof Pattern) {
+            tabs.add("Pattern", new PatternPanel(self, (Pattern) o));
+        }
+
+        tabs.add("Summary", new SummaryPanel(self, o));
+
+        
+        if (graph.containsVertex(o)) {
+            tabs.add("Graph", new GraphPanel(graph, o));
+            tabs.add("Paths", new NeighborhoodPanel(self, o));
         }
 
 
+        tabs.add("Send", new SendPanel(self.getAll(Sends.class), getMessages(o)));
+
+    }
+
+    public List<Message> getMessages(Object o) {
+        LinkedList<Message> lm = new LinkedList();
+
+        lm.add(new Message(o.toString(), "", null, null));
+        lm.add(new Message("Type", "it's a " + o.getClass().getSimpleName(), null, null));
+
+        if (graph.containsVertex(o)) {
+            lm.add(new Message("Inputs", "inputs from " + graph.getPredecessors(o), null, null));
+            lm.add(new Message("Outputs", "outputs to " + graph.getSuccessors(o), null, null));
+        }
+
+        return lm;
     }
 }
 

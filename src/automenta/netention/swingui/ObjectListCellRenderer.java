@@ -20,9 +20,9 @@ import javax.swing.ListCellRenderer;
  */
 public class ObjectListCellRenderer implements ListCellRenderer {
 
-    private final SelfPanel selfPanel;
+    private final EQListPanel selfPanel;
 
-    public ObjectListCellRenderer(SelfPanel selfPanel) {
+    public ObjectListCellRenderer(EQListPanel selfPanel) {
         this.selfPanel = selfPanel;
     }
 
@@ -72,17 +72,17 @@ public class ObjectListCellRenderer implements ListCellRenderer {
             float bf = 0.55f + (af * 0.4f) + ((index % 2 == 1) ? 0.05f : 0f);
 
             float h = getHue(value);
-            bgColor = Color.getHSBColor(h, 0.5f + bf*0.5f, 0.5f+bf*0.5f);
+            bgColor = Color.getHSBColor(h, 0.4f + bf*0.2f, 0.8f+bf*0.2f);
 
             //bgColor = new Color(bf, bf, 0.0f);
 
         }
 
-        float nameSize = (float) (((double)SelfPanel.FontH1.getSize()) * a);
-        nameSize = Math.max(nameSize, SelfPanel.FontH3.getSize());
+        float nameSize = (float) (((double)EQListPanel.FontH1.getSize()) * a);
+        nameSize = Math.max(nameSize, EQListPanel.FontH3.getSize());
 
-        nameLabel.setFont(SelfPanel.FontH2.deriveFont(nameSize));
-        subLabel.setFont(SelfPanel.FontH2.deriveFont(nameSize/2.0f));
+        nameLabel.setFont(EQListPanel.FontH2.deriveFont(nameSize));
+        subLabel.setFont(EQListPanel.FontH2.deriveFont(nameSize/2.0f));
 
         int borderSize = 4;
         if (cellHasFocus) {

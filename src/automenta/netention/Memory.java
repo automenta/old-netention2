@@ -4,8 +4,10 @@
  */
 package automenta.netention;
 
+import automenta.netention.graph.FastDirectedGraph;
 import edu.uci.ics.jung.algorithms.scoring.PageRank;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
+import edu.uci.ics.jung.graph.util.EdgeType;
 
 /**
  *
@@ -13,7 +15,7 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
  */
 public class Memory {
 
-    public DirectedSparseGraph graph = new DirectedSparseGraph();
+    public DirectedSparseGraph graph = new FastDirectedGraph();
 
     int pagerankIterations = 100;
 
@@ -55,5 +57,14 @@ public class Memory {
 //        }
 
         return p;
+    }
+
+    public void add(DirectedSparseGraph g) {
+//        for (Object v : g.getVertices()) {
+//            this.graph.addVertex(v);
+//        }
+        for (Object e : g.getEdges()) {
+            this.graph.addEdge(e, g.getEndpoints(e), EdgeType.DIRECTED);
+        }
     }
 }
