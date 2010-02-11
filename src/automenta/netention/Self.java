@@ -133,11 +133,11 @@ public class Self {
     }
 
     public void addVertex(Object x) {
-        getMemory().graph.addVertex(x);
+        getMemory().addVertex(x);
     }
 
     public <N extends Node> N addNode(N n) {
-        getMemory().graph.addVertex(n);
+        getMemory().addVertex(n);
         nodeIndex.put(n.getID(), n);
         return n;
     }
@@ -153,7 +153,7 @@ public class Self {
                 getLinker().removeNode((Detail) removed);
             }
         }
-        getMemory().graph.removeVertex(removed);
+        getMemory().removeVertex(removed);
     }
 
     private String newRandomID(String prefix) {
@@ -235,7 +235,7 @@ public class Self {
     }
 
     public Collection<Object> getNodes() {
-        return getMemory().graph.getVertices();
+        return getMemory().getVertices();
     }
 
     /** the agent concept of this self */
@@ -245,7 +245,7 @@ public class Self {
 
     public <X> Collection<X> getAll(Class<? extends X> c) {
         List<X> l = new LinkedList<X>();
-        for (Object y : getMemory().graph.getVertices()) {
+        for (Object y : getMemory().getVertices()) {
             if (c.isAssignableFrom(y.getClass())) {
                 l.add((X) y);
             }
@@ -254,7 +254,7 @@ public class Self {
     }
 
     public <X> X getThe(Class<? extends X> c) {
-        for (Object y : getMemory().graph.getVertices()) {
+        for (Object y : getMemory().getVertices()) {
             if (c.isAssignableFrom(y.getClass())) {
                 return (X) y;
             }

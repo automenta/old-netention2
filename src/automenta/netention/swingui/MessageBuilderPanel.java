@@ -18,6 +18,8 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
+import javax.swing.border.EmptyBorder;
 
 /**
  *
@@ -26,6 +28,7 @@ import javax.swing.JSplitPane;
 public class MessageBuilderPanel extends JPanel {
 
     DefaultListModel selected = new DefaultListModel();
+    private final JTextArea introPanel;
     
     public MessageBuilderPanel(List<Message> parts) {
         super(new BorderLayout());
@@ -62,6 +65,11 @@ public class MessageBuilderPanel extends JPanel {
         a.setDividerLocation(0.5);
 
         add(a, BorderLayout.CENTER);
+
+        introPanel = new JTextArea(3,40);
+        introPanel.setFont(introPanel.getFont().deriveFont(introPanel.getFont().getSize()*1.5f));
+        introPanel.setBorder(new EmptyBorder(4,4,4,4));
+        add(introPanel, BorderLayout.NORTH);
         
     }
 
@@ -81,4 +89,7 @@ public class MessageBuilderPanel extends JPanel {
         return l;
     }
 
+    public String getIntroText() {
+        return introPanel.getText();
+    }
 }

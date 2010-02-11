@@ -6,7 +6,6 @@ package automenta.netention.io;
 
 import automenta.netention.Memory;
 import automenta.netention.node.Channel;
-import automenta.netention.node.Concept;
 import automenta.netention.node.AgentRef;
 import automenta.netention.node.Message;
 import automenta.netention.edge.CreatedBy;
@@ -16,13 +15,9 @@ import automenta.netention.edge.Creates;
 import automenta.netention.edge.Mentions;
 import automenta.netention.edge.RetweetedBy;
 import automenta.netention.nlp.en.POSTagger;
-import automenta.netention.nlp.en.PorterStemming;
-import edu.stanford.nlp.ling.TaggedWord;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import twitter4j.Status;
 import twitter4j.User;
 
@@ -64,17 +59,17 @@ public class Twitter extends twitter4j.Twitter implements Sends {
         for (String x : tags) {
             //Channel c = new Channel(x);
             Channel h = new Channel(x);
-            pg.graph.addVertex(h);
-            pg.graph.addEdge(new Mentions(), m, h);
-            pg.graph.addEdge(new MentionedBy(), h, m);
+            pg.addVertex(h);
+            pg.addEdge(new Mentions(), m, h);
+            pg.addEdge(new MentionedBy(), h, m);
         }
 
         if (users.size() > 0) {
             for (String us : users) {
                 AgentRef a = new AgentRef(us, null);
-                pg.graph.addVertex(a);
-                pg.graph.addEdge(new Mentions(), m, a);
-                pg.graph.addEdge(new MentionedBy(), a, m);
+                pg.addVertex(a);
+                pg.addEdge(new Mentions(), m, a);
+                pg.addEdge(new MentionedBy(), a, m);
             }
 
 //            new Thread(new Runnable() {
@@ -97,7 +92,7 @@ public class Twitter extends twitter4j.Twitter implements Sends {
         }
 
         try {
-            tagger.tag(m, s.getText(), pg.graph);
+            tagger.tag(m, s.getText(), pg);
         } catch (Exception e) {
             System.err.println(e);
         }
@@ -106,22 +101,22 @@ public class Twitter extends twitter4j.Twitter implements Sends {
     public void addStatus(Memory pg, Status s) {
         Message m = new Message(s.getText(), null);
 
-        pg.graph.addVertex(m);
+        pg.addVertex(m);
 
         AgentRef ac = new AgentRef(s.getUser().getName(), s.getUser().getProfileImageURL());
-        pg.graph.addEdge(new Creates(), ac, m);
-        pg.graph.addEdge(new CreatedBy(), m, ac);
+        pg.addEdge(new Creates(), ac, m);
+        pg.addEdge(new CreatedBy(), m, ac);
 
         if (s.isRetweet()) {
             //Concept src = addAuthor(pg, s.getRetweetDetails().getRetweetingUser());
             User u = s.getRetweetDetails().getRetweetingUser();
             AgentRef a = new AgentRef(u.getName(), u.getProfileImageURL());
 
-            pg.graph.addEdge(new Retweets(), m, a);
-            pg.graph.addEdge(new RetweetedBy(), a, m);
+            pg.addEdge(new Retweets(), m, a);
+            pg.addEdge(new RetweetedBy(), a, m);
             
-            pg.graph.addEdge(new Creates(), a, m);
-            pg.graph.addEdge(new CreatedBy(), m, a);
+            pg.addEdge(new Creates(), a, m);
+            pg.addEdge(new CreatedBy(), m, a);
 
         }
 

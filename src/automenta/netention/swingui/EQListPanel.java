@@ -63,7 +63,7 @@ public class EQListPanel extends JPanel implements ListSelectionListener {
     private final JPanel statusPanel = new JPanel(new FlowLayout());
 
     private void updateStatus(Memory memory, int numShown) {
-        String statusString = numShown + " vertices of " + memory.graph.getVertexCount() + " ( " + memory.graph.getEdgeCount() + " edges)";
+        String statusString = numShown + " vertices of " + memory.getVertexCount() + " ( " + memory.getEdgeCount() + " edges)";
         statusPanel.removeAll();
         statusPanel.add(new JLabel(statusString));
         statusPanel.updateUI();
@@ -169,6 +169,7 @@ public class EQListPanel extends JPanel implements ListSelectionListener {
             });
             add(botmail);
 
+            addSeparator();
 
 
 

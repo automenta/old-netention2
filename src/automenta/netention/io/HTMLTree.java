@@ -32,7 +32,7 @@ public class HTMLTree {
     private URL u;
     
     public HTMLTree(Self self, String url) {
-        this(self, self.getMemory().graph, url);
+        this(self, self.getMemory(), url);
     }
 
     public HTMLTree(Self self, DirectedSparseGraph targetGraph, String url) {

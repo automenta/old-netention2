@@ -13,9 +13,7 @@ import edu.uci.ics.jung.graph.util.EdgeType;
  *
  * @author seh
  */
-public class Memory {
-
-    public DirectedSparseGraph graph = new FastDirectedGraph();
+public class Memory extends FastDirectedGraph {
 
     int pagerankIterations = 100;
 
@@ -30,7 +28,7 @@ public class Memory {
 //        }
 //
 
-        final PageRank p = new PageRank(graph, 0.2);
+        final PageRank p = new PageRank(this, 0.2);
         p.setMaxIterations(pagerankIterations);
         p.acceptDisconnectedGraph(true);
         p.evaluate();
@@ -60,11 +58,8 @@ public class Memory {
     }
 
     public void add(DirectedSparseGraph g) {
-//        for (Object v : g.getVertices()) {
-//            this.graph.addVertex(v);
-//        }
         for (Object e : g.getEdges()) {
-            this.graph.addEdge(e, g.getEndpoints(e), EdgeType.DIRECTED);
+            addEdge(e, g.getEndpoints(e), EdgeType.DIRECTED);
         }
     }
 }

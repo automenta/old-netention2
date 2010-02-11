@@ -91,7 +91,11 @@ public class SendPanel extends JPanel {
 
     protected void send(Sends out, final JButton sendButton) {
         List<Message> ml = msgPanel.getMessages();
+        
         StringBuffer content = new StringBuffer();
+
+        content.append(wrapTitle(msgPanel.getIntroText()) + "<br/><br/>");
+        
         for (Message m : ml) {
             if (m.title != null) {
                 content.append(wrapTitle(m.title));
@@ -129,6 +133,7 @@ public class SendPanel extends JPanel {
         }
 
         //emailOut.emailName, emailOut.senderEmail, emailOut.passwd, emailOut.emailHost, toAddress, subject, message.toString()
-
     }
+
+
 }

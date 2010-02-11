@@ -62,7 +62,7 @@ public class NeighborhoodPanel extends JPanel {
         super(new BorderLayout());
 
         this.root = root;
-        this.g = s.getMemory().graph;
+        this.g = s.getMemory();
 
         //DefaultMutableTreeNode rootNode = new GraphTreeNode("", root, 4);
 

@@ -5,8 +5,10 @@
 package automenta.netention.io;
 
 import automenta.netention.Self;
+import automenta.netention.edge.MentionedBy;
 import automenta.netention.edge.Mentions;
 import automenta.netention.nlp.en.POSTagger;
+import automenta.netention.node.Contactable;
 import automenta.netention.node.Link;
 import automenta.netention.node.Message;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
@@ -35,7 +37,7 @@ public class HTML {
     private List<Link> links = new LinkedList();
 
     public HTML(Self self, String url) {
-        this(self, self.getMemory().graph, url);
+        this(self, self.getMemory(), url);
     }
 
     public HTML(Self self, DirectedSparseGraph targetGraph, String url) {
@@ -92,7 +94,13 @@ public class HTML {
                             linkText = linkUrl;
                         }
 
-                        Link l = new Link(linkText, linkUrl);
+                        Link l;
+                        if (linkUrl.startsWith("mailto:")) {
+                            l = new Contactable(linkText, linkUrl);
+                        }
+                        else {
+                            l = new Link(linkText, linkUrl);
+                        }
                         links.add(l);
                     }
                 }
@@ -102,10 +110,10 @@ public class HTML {
         Message page = new Message(url, text, url, null);
         graph.addVertex(page);
 
-
         for (Link l : links) {
             graph.addVertex(l);
             graph.addEdge(new Mentions(), page, l);
+            graph.addEdge(new MentionedBy(), l, page);
         }
 
         if (tagger != null) {

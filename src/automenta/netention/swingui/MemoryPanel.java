@@ -36,7 +36,7 @@ public class MemoryPanel extends JPanel implements Runnable {
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
         this.self = self;
-        this.graph = self.getMemory().graph;
+        this.graph = self.getMemory();
 
         new Thread(this).start();
 

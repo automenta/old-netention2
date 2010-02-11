@@ -9,6 +9,7 @@ import automenta.netention.Self;
 import automenta.netention.io.Async;
 import automenta.netention.io.HTML;
 import automenta.netention.node.Link;
+import automenta.netention.node.Message;
 import automenta.netention.swingui.EQListPanel;
 import edu.uci.ics.jung.algorithms.filters.KNeighborhoodFilter;
 import edu.uci.ics.jung.algorithms.filters.KNeighborhoodFilter.EdgeType;
@@ -40,7 +41,7 @@ public class SummaryPanel extends JPanel {
 
         this.self = s;
         this.o = root;
-        this.g = s.getMemory().graph;
+        this.g = s.getMemory();
 
         refresh();
     }
@@ -96,8 +97,17 @@ public class SummaryPanel extends JPanel {
         }
     }
 
+    public static String getText(Object o) {
+        if (o instanceof Message) {
+            Message m = (Message)o;
+            String h = m.title + "\n\n" + m.text;
+            return h;
+        }
+
+        return o.toString();
+    }
     public void addSummary() {
-        JTextArea j = new JTextArea(o.toString());
+        JTextArea j = new JTextArea(getText(o));
         j.setFont(EQListPanel.FontH1);
         j.setEditable(false);
         j.setLineWrap(true);

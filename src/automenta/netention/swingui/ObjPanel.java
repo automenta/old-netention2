@@ -1,5 +1,6 @@
 package automenta.netention.swingui;
 
+import automenta.netention.swingui.object.PageRankPanel;
 import automenta.netention.swingui.pattern.PatternPanel;
 import automenta.netention.node.Detail;
 import automenta.netention.Self;
@@ -30,7 +31,7 @@ public class ObjPanel extends JPanel {
     public ObjPanel(Self self) {
         super(new BorderLayout());
         this.self = self;
-        this.graph = self.getMemory().graph;
+        this.graph = self.getMemory();
 
         tabs = new JTabbedPane();
         add(tabs, BorderLayout.CENTER);
@@ -63,6 +64,7 @@ public class ObjPanel extends JPanel {
             tabs.add("Paths", new NeighborhoodPanel(self, o));
         }
 
+        tabs.add("Radar", new PageRankPanel(self, self.getMemory(), o));
 
         tabs.add("Send", new SendPanel(self.getAll(Sends.class), getMessages(o)));
 
