@@ -7,13 +7,24 @@ package automenta.netention;
 import automenta.netention.graph.FastDirectedGraph;
 import edu.uci.ics.jung.algorithms.scoring.PageRank;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
+import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.util.EdgeType;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
  * @author seh
  */
 public class Memory extends FastDirectedGraph {
+
+    public static Set<Class> getPresentVertexTypes(Graph g /* boolean include supertypes */) {
+        Set<Class> s = new HashSet();
+        for (Object o: g.getVertices()) {
+            s.add(o.getClass());
+        }
+        return s;
+    }
 
     int pagerankIterations = 100;
 

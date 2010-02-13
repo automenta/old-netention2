@@ -9,10 +9,10 @@ package automenta.netention.edge;
  *
  * @author seh
  */
-public class MentionedBy {
+public final class ReffedBy {
     
     @Override public String toString() {
-        return "mentionBy";
+        return "reffedBy";
     }
 
 

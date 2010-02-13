@@ -5,7 +5,7 @@
 package automenta.netention.io;
 
 import automenta.netention.Self;
-import automenta.netention.edge.Contains;
+import automenta.netention.edge.Refs;
 import automenta.netention.nlp.en.POSTagger;
 import automenta.netention.node.Image;
 import automenta.netention.node.Link;
@@ -131,9 +131,9 @@ public class HTMLTree {
 
             graph.addVertex(node);
             if (parent != null) {
-                graph.addEdge(new Contains(), parent, node);
+                graph.addEdge(new Refs(), parent, node);
             } else {
-                graph.addEdge(new Contains(), u, node);
+                graph.addEdge(new Refs(), u, node);
             }
 
         }

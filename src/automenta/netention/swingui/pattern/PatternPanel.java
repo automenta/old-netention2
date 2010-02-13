@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 
 public class PatternPanel extends JPanel {
 
-    public PatternPanel(Self network, Pattern p) {
+    public PatternPanel(Self self, Pattern p) {
         super();
         setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
@@ -30,7 +30,7 @@ public class PatternPanel extends JPanel {
         JPanel extendsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         extendsPanel.add(new JLabel("Extends: "));
         for (String ei : p.getExtends()) {
-            Pattern ep = network.getSchema().getPattern(ei);
+            Pattern ep = self.getSchema().getPattern(ei);
             extendsPanel.add(new JHyperLink(ep.getName(), "Go to Pattern " + ep.getName()));
         }
         gc.gridy++;
@@ -38,7 +38,7 @@ public class PatternPanel extends JPanel {
         JPanel localProperties = new JPanel();
         localProperties.setLayout(new BoxLayout(localProperties, BoxLayout.PAGE_AXIS));
         for (String sdp : p.getDefinedProperties()) {
-            Property dp = network.getSchema().getProperty(sdp);
+            Property dp = self.getSchema().getProperty(sdp);
             localProperties.add(new PropertyViewPanel(dp, true));
         }
         gc.gridy++;
@@ -46,9 +46,9 @@ public class PatternPanel extends JPanel {
         JPanel inheritedProperties = new JPanel();
         inheritedProperties.setLayout(new BoxLayout(inheritedProperties, BoxLayout.PAGE_AXIS));
         inheritedProperties.add(new JLabel("Inherited:"));
-        for (String sdp : p.getInheritedProperties()) {
+        for (String sdp : self.getSchema().getInheritedPatterns(p)) {
             if (!p.getDefinedProperties().contains(sdp)) {
-                Property dp = network.getSchema().getProperty(sdp);
+                Property dp = self.getSchema().getProperty(sdp);
                 inheritedProperties.add(new PropertyViewPanel(dp, false));
             }
         }

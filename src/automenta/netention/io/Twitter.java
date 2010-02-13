@@ -6,15 +6,15 @@ package automenta.netention.io;
 
 import automenta.netention.Memory;
 import automenta.netention.node.Channel;
-import automenta.netention.node.AgentRef;
 import automenta.netention.node.Message;
 import automenta.netention.edge.CreatedBy;
 import automenta.netention.edge.Retweets;
-import automenta.netention.edge.MentionedBy;
+import automenta.netention.edge.ReffedBy;
 import automenta.netention.edge.Creates;
-import automenta.netention.edge.Mentions;
+import automenta.netention.edge.Refs;
 import automenta.netention.edge.RetweetedBy;
 import automenta.netention.nlp.en.POSTagger;
+import automenta.netention.node.Contactable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -41,7 +41,7 @@ public class Twitter extends twitter4j.Twitter implements Sends {
 
 
     protected void updateMentions(final Memory pg, Status s, final Message m) {
-        final List<String> users = new LinkedList();
+        final List<String> mentionedUsers = new LinkedList();
         List<String> tags = new LinkedList();
 
         String t = s.getText();
@@ -49,7 +49,7 @@ public class Twitter extends twitter4j.Twitter implements Sends {
         while (st.hasMoreTokens()) {
             String x = st.nextToken();
             if (x.startsWith("@")) {
-                users.add(x);
+                mentionedUsers.add(x);
             } else if (x.startsWith("#")) {
                 tags.add(x);
             }
@@ -60,16 +60,16 @@ public class Twitter extends twitter4j.Twitter implements Sends {
             //Channel c = new Channel(x);
             Channel h = new Channel(x);
             pg.addVertex(h);
-            pg.addEdge(new Mentions(), m, h);
-            pg.addEdge(new MentionedBy(), h, m);
+            pg.addEdge(new Refs(), m, h);
+            pg.addEdge(new ReffedBy(), h, m);
         }
 
-        if (users.size() > 0) {
-            for (String us : users) {
-                AgentRef a = new AgentRef(us, null);
+        if (mentionedUsers.size() > 0) {
+            for (String us : mentionedUsers) {
+                Contactable a = new Contactable(us, us);
                 pg.addVertex(a);
-                pg.addEdge(new Mentions(), m, a);
-                pg.addEdge(new MentionedBy(), a, m);
+                pg.addEdge(new Refs(), m, a);
+                pg.addEdge(new ReffedBy(), a, m);
             }
 
 //            new Thread(new Runnable() {
@@ -99,18 +99,18 @@ public class Twitter extends twitter4j.Twitter implements Sends {
     }
 
     public void addStatus(Memory pg, Status s) {
-        Message m = new Message(s.getText(), null);
+        Message m = new Message(s.getText());
 
         pg.addVertex(m);
 
-        AgentRef ac = new AgentRef(s.getUser().getName(), s.getUser().getProfileImageURL());
+        Contactable ac = new Contactable(s.getUser().getName(), "@" + s.getUser().getScreenName());
         pg.addEdge(new Creates(), ac, m);
         pg.addEdge(new CreatedBy(), m, ac);
 
         if (s.isRetweet()) {
             //Concept src = addAuthor(pg, s.getRetweetDetails().getRetweetingUser());
             User u = s.getRetweetDetails().getRetweetingUser();
-            AgentRef a = new AgentRef(u.getName(), u.getProfileImageURL());
+            Contactable a = new Contactable(u.getName(), "@" + u.getScreenName());
 
             pg.addEdge(new Retweets(), m, a);
             pg.addEdge(new RetweetedBy(), a, m);

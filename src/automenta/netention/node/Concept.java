@@ -9,7 +9,7 @@ package automenta.netention.node;
  *
  * @author seh
  */
-public class Concept {
+public final class Concept {
     private final String c;
 
     public Concept(String id) {

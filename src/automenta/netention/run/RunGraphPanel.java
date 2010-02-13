@@ -3,18 +3,19 @@
  * and open the template in the editor.
  */
 
-package automenta.netention.swingui;
+package automenta.netention.run;
 
-import automenta.netention.swingui.util.SwingWindow;
-import automenta.netention.node.Detail;
 import automenta.netention.Self;
-import automenta.netention.value.integer.IntegerIs;
-import automenta.netention.value.real.RealIs;
-import automenta.netention.value.string.StringIs;
 import automenta.netention.example.ExampleSelf;
 import automenta.netention.io.Twitter;
 import automenta.netention.nlp.en.POSTagger;
 import automenta.netention.node.Agent;
+import automenta.netention.node.Detail;
+import automenta.netention.swingui.object.GraphPanel;
+import automenta.netention.swingui.util.SwingWindow;
+import automenta.netention.value.integer.IntegerIs;
+import automenta.netention.value.real.RealIs;
+import automenta.netention.value.string.StringIs;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
@@ -23,7 +24,8 @@ import javax.swing.UIManager;
  *
  * @author seh
  */
-public class RunEQPanel {
+public class RunGraphPanel {
+
     static {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -40,9 +42,9 @@ public class RunEQPanel {
         d.add("bicycleType", new StringIs("mountain"));
 
         Detail g = self.newDetail(s, "Guitar", "Guitar");
-        
+
         self.newDetail(s, "Apartment", "Dwelling");
-        
+
         self.newDetail(s, "Next Apartment", "Dwelling");
 
         Detail t = self.newDetail(s, "Twitter", "TwitterAccount");
@@ -53,18 +55,12 @@ public class RunEQPanel {
             POSTagger pos = new POSTagger();
             self.addVertex(new Twitter(pos));
             self.addVertex(pos);
-            
+
             self.addVertex(RunEMailPanel.vrAssistanceSMTP);
         } catch (Exception ex) {
             Logger.getLogger(RunEQPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        EQListPanel dp = new EQListPanel(self);
-
-        new SwingWindow(dp, 400, 900, true);
-        new SwingWindow(new MemoryPanel(self), 400, 400, false);
-        //new SwingWindow(new PageRankPanel(self.getMemory().graph), 400, 400, false);
+        new SwingWindow(new GraphPanel(self, self.getMemory(), null), 900, 800, true);
     }
-
-
 }

@@ -26,26 +26,29 @@ public class ObjectListCellRenderer implements ListCellRenderer {
         this.selfPanel = selfPanel;
     }
 
+    public static String maxLength(String s, int maxStringLength) {
+        if (s.length() > maxStringLength) {
+            return s.substring(0, maxStringLength);
+        }
+        return s;
+    }
+
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
         JPanel j = new JPanel(new BorderLayout());
 
 
         JLabel nameLabel, subLabel = null;
         String typeString = "";
-        
+
         if (value instanceof Detail) {
             Detail d = (Detail) value;
-            nameLabel = new JLabel(d.getName());
+            nameLabel = new JLabel(maxLength(d.getName(), 32));
 
-            typeString = d.getPatterns().toString();
-            int maxTypeStringLength = 16;
-            if (typeString.length() > maxTypeStringLength) {
-                typeString = typeString.substring(0, maxTypeStringLength);
-            }
+            typeString = maxLength(d.getPatterns().toString(), 16);
         } else {
-            nameLabel = new JLabel(value.toString());
+            nameLabel = new JLabel(maxLength(value.toString(), 32));
         }
-        
+
         if (typeString.length() == 0) {
             typeString = value.getClass().getSimpleName();
         }
@@ -68,21 +71,21 @@ public class ObjectListCellRenderer implements ListCellRenderer {
                 subLabel.setForeground(Color.WHITE);
             }
         } else {
-            float af = (float)a;
+            float af = (float) a;
             float bf = 0.55f + (af * 0.4f) + ((index % 2 == 1) ? 0.05f : 0f);
 
             float h = getHue(value);
-            bgColor = Color.getHSBColor(h, 0.4f + bf*0.2f, 0.8f+bf*0.2f);
+            bgColor = Color.getHSBColor(h, 0.4f + bf * 0.2f, 0.8f + bf * 0.2f);
 
             //bgColor = new Color(bf, bf, 0.0f);
 
         }
 
-        float nameSize = (float) (((double)EQListPanel.FontH1.getSize()) * a);
+        float nameSize = (float) (((double) EQListPanel.FontH1.getSize()) * a);
         nameSize = Math.max(nameSize, EQListPanel.FontH3.getSize());
 
         nameLabel.setFont(EQListPanel.FontH2.deriveFont(nameSize));
-        subLabel.setFont(EQListPanel.FontH2.deriveFont(nameSize/2.0f));
+        subLabel.setFont(EQListPanel.FontH2.deriveFont(nameSize / 2.0f));
 
         int borderSize = 4;
         if (cellHasFocus) {
@@ -97,6 +100,6 @@ public class ObjectListCellRenderer implements ListCellRenderer {
     }
 
     public static float getHue(Object value) {
-        return ((float)value.getClass().hashCode()) / ((float)Integer.MAX_VALUE);
+        return ((float) value.getClass().hashCode()) / ((float) Integer.MAX_VALUE);
     }
 }

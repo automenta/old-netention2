@@ -5,8 +5,8 @@
 package automenta.netention.io;
 
 import automenta.netention.Self;
-import automenta.netention.edge.MentionedBy;
-import automenta.netention.edge.Mentions;
+import automenta.netention.edge.ReffedBy;
+import automenta.netention.edge.Refs;
 import automenta.netention.nlp.en.POSTagger;
 import automenta.netention.node.Contactable;
 import automenta.netention.node.Link;
@@ -34,7 +34,7 @@ public class HTML {
     private final Self self;
     private URL u;
     private List<Node> nodes = new LinkedList();
-    private List<Link> links = new LinkedList();
+    private List<Object> links = new LinkedList();
 
     public HTML(Self self, String url) {
         this(self, self.getMemory(), url);
@@ -56,7 +56,6 @@ public class HTML {
             p.setFeedback(null);
 
             u = new URL(url);
-            graph.addVertex(u);
 
             NodeList nodes = p.parse(null);
             for (Node n : nodes.toNodeArray()) {
@@ -67,6 +66,7 @@ public class HTML {
         }
 
         String text = "";
+        String pageTitle = url;
 
         for (Node n : nodes) {
             if (n instanceof TextNode) {
@@ -77,55 +77,99 @@ public class HTML {
             if (n instanceof TagNode) {
                 TagNode tn = (TagNode) n;
                 String tag = tn.getTagName().toLowerCase();
-                if (tag.equals("a")) {
+
+                if (tag.equals("title")) {
+                    try {
+                        pageTitle = tn.getFirstChild().getText();
+                        //System.out.println(url + " has title " + pageTitle);
+                    } catch (NullPointerException e) {
+                    }
+                } else if (tag.equals("a")) {
                     //extract link
                     String linkUrl = tn.getAttribute("href");
                     if (linkUrl != null) {
                         String linkText = tn.getAttribute("title");
+
+
                         if ((!linkUrl.startsWith("http:")) && (!linkUrl.startsWith("https:")) && (!linkUrl.startsWith("mailto:"))) {
-                            linkUrl = url + linkUrl;
-                        }
-                        if (linkText == null) {
-                            if (tn.getFirstChild() != null) {
-                                linkText = tn.getFirstChild().getText();
+                            if (linkUrl.startsWith("/")) {
+                                linkUrl = getRootURL(url) + linkUrl;
+                            } else {
+                                linkUrl = url + linkUrl;
                             }
                         }
-                        if (linkText == null) {
-                            linkText = linkUrl;
+
+                        //System.out.println("encountered link: " + linkUrl);
+
+                        //handle twitter urls
+                        if (linkUrl.startsWith("http://twitter.com/")) {
+                            String twitterUser = linkUrl.replace("http://twitter.com/", "");
+                            if (twitterUser.length() > 0) {
+                                //remove extra slash material
+                                if (twitterUser.contains("/")) {
+                                    int slashIndex = twitterUser.indexOf('/');
+                                    twitterUser = twitterUser.substring(0, slashIndex);
+                                }
+                                if (isValidTwitterer(twitterUser)) {
+                                    twitterUser = "@" + twitterUser;
+                                    Contactable c = new Contactable(twitterUser, twitterUser);
+                                    //System.out.println("  encountered twitterer: " + twitterUser);
+                                    links.add(c);
+                                }
+                            }
                         }
 
                         Link l;
-                        if (linkUrl.startsWith("mailto:")) {
-                            l = new Contactable(linkText, linkUrl);
+                        {
+
+                            if (linkText == null) {
+                                if (tn.getFirstChild() != null) {
+                                    linkText = tn.getFirstChild().getText();
+                                }
+                            }
+                            if (linkText == null) {
+                                linkText = linkUrl;
+                            }
+
+                            if (linkUrl.startsWith("mailto:")) {
+                                l = new Contactable(linkText, linkUrl);
+                            } else {
+                                l = new Link(linkText, linkUrl);
+                            }
                         }
-                        else {
-                            l = new Link(linkText, linkUrl);
+
+                        if (l != null) {
+                            links.add(l);
                         }
-                        links.add(l);
                     }
                 }
             }
         }
 
-        Message page = new Message(url, text, url, null);
-        graph.addVertex(page);
+        Message page = new Message(pageTitle, text, url);
 
-        for (Link l : links) {
-            graph.addVertex(l);
-            graph.addEdge(new Mentions(), page, l);
-            graph.addEdge(new MentionedBy(), l, page);
-        }
+        synchronized (graph) {
+            graph.addVertex(page);
 
-        if (tagger != null) {
-            try {
-                tagger.tag(page, text, graph);
-            } catch (Exception e) {
+            graph.addVertex(u);
+
+            for (Object l : links) {
+                graph.addVertex(l);
+                graph.addEdge(new Refs(), page, l);
+                graph.addEdge(new ReffedBy(), l, page);
             }
+            if (tagger != null) {
+                try {
+                    tagger.tag(page, text, graph);
+                } catch (Exception e) {
+                }
+            } else {
+                System.out.println("TAGGER is null");
+                System.exit(1);
+            }
+
         }
-        else {
-            System.out.println("TAGGER is null");
-            System.exit(1);
-        }
+
 
     }
 
@@ -162,9 +206,80 @@ public class HTML {
         Self s = new Self("xyz", "XYZ");
         try {
             s.addVertex(new POSTagger());
-            new HTML(s, "http://baltimore.craigslist.org/cpg/1593964151.html");
+            new HTML(s, "http://twitter.com/sseehh");
         } catch (Exception ex) {
             Logger.getLogger(HTML.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public String getRootURL(String url) {
+        int lastSlash = url.lastIndexOf("/");
+        if (lastSlash == -1) {
+            return url;
+        } else {
+            return url.substring(0, lastSlash);
+        }
+
+    }
+
+    public boolean isValidTwitterer(String twitterUser) {
+        if ((!twitterUser.contains("?")) && (!twitterUser.contains("&")) && (!twitterUser.contains("#")) && (!twitterUser.contains("="))) {
+            if (twitterUser.equals("about")) {
+                return false;
+            }
+            if (twitterUser.equals("login")) {
+                return false;
+            }
+            if (twitterUser.equals("signup")) {
+                return false;
+            }
+            if (twitterUser.equals("statuses")) {
+                return false;
+            }
+            if (twitterUser.equals("favorites")) {
+                return false;
+            }
+            if (twitterUser.equals("help")) {
+                return false;
+            }
+            if (twitterUser.equals("goodies")) {
+                return false;
+            }
+            if (twitterUser.equals("jobs")) {
+                return false;
+            }
+            if (twitterUser.equals("tos")) {
+                return false;
+            }
+            if (twitterUser.equals("privacy")) {
+                return false;
+            }
+            if (twitterUser.equals("twitter")) {
+                return false;
+            }
+            if (twitterUser.equals("twitterapi")) {
+                return false;
+            }
+            if (twitterUser.equals("twittermobile")) {
+                return false;
+            }
+            if (twitterUser.equals("spam")) {
+                return false;
+            }
+            if (twitterUser.equals("feedback")) {
+                return false;
+            }
+            if (twitterUser.equals("support")) {
+                return false;
+            }
+            if (twitterUser.equals("safety")) {
+                return false;
+            }
+            if (twitterUser.equals("account")) {
+                return false;
+            }
+            return true;
+        }
+        return false;
     }
 }

@@ -6,7 +6,7 @@
 package automenta.netention.edge;
 
 /** indicates that an agent retweets something */
-public class RetweetedBy {
+public final class RetweetedBy {
 
     @Override public String toString() {
         return "retweetedBy";

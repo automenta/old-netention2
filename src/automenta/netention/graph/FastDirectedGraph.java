@@ -19,9 +19,9 @@ public class FastDirectedGraph<V,E> extends DirectedSparseGraph<V,E> {
     public FastDirectedGraph() {
         super();
         vertices = new FastMap<V, Pair<Map<V,E>>>();
-        ((FastMap)vertices).setShared(true);
+        ((FastMap)vertices).setShared(false);
         edges  = new FastMap<E, Pair<V>>();
-        ((FastMap)edges).setShared(true);
+        ((FastMap)edges).setShared(false);
     }
 
     public void clear() {

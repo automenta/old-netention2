@@ -9,6 +9,7 @@ import automenta.netention.node.Message;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.BoxLayout;
@@ -30,7 +31,7 @@ public class MessageBuilderPanel extends JPanel {
     DefaultListModel selected = new DefaultListModel();
     private final JTextArea introPanel;
     
-    public MessageBuilderPanel(List<Message> parts) {
+    public MessageBuilderPanel(Collection<Message> parts) {
         super(new BorderLayout());
 
         JSplitPane a = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
@@ -91,5 +92,9 @@ public class MessageBuilderPanel extends JPanel {
 
     public String getIntroText() {
         return introPanel.getText();
+    }
+
+    public void addMessage(Message m) {
+        addPart(m);
     }
 }

@@ -1,5 +1,6 @@
 package automenta.netention.swingui.util;
 
+import automenta.netention.swingui.object.PageRankFilterPanel;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JComponent;
@@ -25,6 +26,7 @@ public class SwingWindow extends JFrame {
             });
         }
     }
+
 
 }
 

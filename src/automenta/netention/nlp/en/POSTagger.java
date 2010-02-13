@@ -4,9 +4,10 @@
  */
 package automenta.netention.nlp.en;
 
-import automenta.netention.edge.MentionedBy;
-import automenta.netention.edge.Mentions;
+import automenta.netention.edge.ReffedBy;
+import automenta.netention.edge.Refs;
 import automenta.netention.edge.Next;
+import automenta.netention.edge.Previous;
 import automenta.netention.node.Concept;
 import edu.stanford.nlp.ling.HasWord;
 import edu.stanford.nlp.ling.Sentence;
@@ -28,8 +29,9 @@ public class POSTagger {
     //faster
     String modelFile = "./lib/stanford-pos/models/left3words-wsj-0-18.tagger";
     private final MaxentTagger tagger;
-    boolean bidirectional = false;
+    boolean bidirectional = true;
     boolean sequenceLinks = true;
+    boolean bidirectionalSequence = true;
 
     public POSTagger() throws Exception {
         super();
@@ -77,12 +79,15 @@ public class POSTagger {
                             if (sequenceLinks) {
                                 if (prevConcept!=null) {
                                     pg.addEdge(new Next(), prevConcept, c);
+                                    if (bidirectionalSequence) {
+                                        pg.addEdge(new Previous(), c, prevConcept);
+                                    }
                                 }
                             }
 
-                            pg.addEdge(new Mentions(), m, c);
+                            pg.addEdge(new Refs(), m, c);
                             if (bidirectional) {
-                                pg.addEdge(new MentionedBy(), c, m);
+                                pg.addEdge(new ReffedBy(), c, m);
                             }
 
                             prevConcept = c;

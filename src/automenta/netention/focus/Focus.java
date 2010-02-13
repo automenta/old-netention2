@@ -7,9 +7,9 @@ package automenta.netention.focus;
 
 import automenta.netention.Pattern;
 import automenta.netention.node.Agent;
-import automenta.netention.node.AgentRef;
 import automenta.netention.node.Channel;
 import automenta.netention.node.Concept;
+import automenta.netention.node.Contactable;
 import automenta.netention.node.Detail;
 import automenta.netention.node.Message;
 
@@ -62,7 +62,7 @@ public class Focus {
         else if ((o instanceof Concept) || (o instanceof Channel)) {
             s *= conceptAmount;
         }
-        else if ((o instanceof Agent) || (o instanceof AgentRef)) {
+        else if ((o instanceof Agent) || (o instanceof Contactable)) {
             s *= agentAmount;
         }
         else if (o instanceof Pattern) {

@@ -1,6 +1,6 @@
 package automenta.netention.edge;
 
-public class CreatedBy {
+public final class CreatedBy {
 
     @Override public String toString() {
         return "createdBy";

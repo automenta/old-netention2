@@ -23,11 +23,19 @@ class SMTPSend {
                 try {
                     HtmlEmail smtp = new HtmlEmail();
                     smtp.setHostName(s.emailHost);
-                    smtp.setSSL(true);
+                    smtp.setSSL(s.isSSL()); //set to false for hotmail, true for gmail
                     smtp.setTLS(true);
                     smtp.setAuthentication(s.senderEmail, s.passwd);
 
-                    smtp.addTo(m.getTo(), m.getTo());
+                    String toAddress = m.getTo();
+                    if (toAddress.startsWith("mailto:")) {
+                        toAddress = toAddress.replace("mailto:", "");
+                    }
+                    if (toAddress.contains("?")) {
+                        toAddress = toAddress.substring(0, toAddress.indexOf("?"));
+                    }
+
+                    smtp.addTo(toAddress, toAddress);
                     smtp.setFrom(s.senderEmail, s.emailName);
                     smtp.setSubject(m.title);
                     smtp.setHtmlMsg(m.text);

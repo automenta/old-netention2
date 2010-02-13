@@ -60,7 +60,7 @@ public class ObjPanel extends JPanel {
 
         
         if (graph.containsVertex(o)) {
-            tabs.add("Graph", new GraphPanel(graph, o));
+            tabs.add("Graph", new GraphPanel(self, graph, o));
             tabs.add("Paths", new NeighborhoodPanel(self, o));
         }
 
@@ -73,12 +73,12 @@ public class ObjPanel extends JPanel {
     public List<Message> getMessages(Object o) {
         LinkedList<Message> lm = new LinkedList();
 
-        lm.add(new Message(o.toString(), "", null, null));
-        lm.add(new Message("Type", "it's a " + o.getClass().getSimpleName(), null, null));
+        lm.add(new Message(o.toString(), "", null));
+        lm.add(new Message("Type", "it's a " + o.getClass().getSimpleName(), null));
 
         if (graph.containsVertex(o)) {
-            lm.add(new Message("Inputs", "inputs from " + graph.getPredecessors(o), null, null));
-            lm.add(new Message("Outputs", "outputs to " + graph.getSuccessors(o), null, null));
+            lm.add(new Message("Inputs", "inputs from " + graph.getPredecessors(o), null));
+            lm.add(new Message("Outputs", "outputs to " + graph.getSuccessors(o), null));
         }
 
         return lm;

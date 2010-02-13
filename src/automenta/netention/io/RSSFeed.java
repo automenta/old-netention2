@@ -5,6 +5,7 @@
 
 package automenta.netention.io;
 
+import automenta.netention.Memory;
 import automenta.netention.node.Message;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
@@ -29,12 +30,16 @@ public class RSSFeed {
 
     List<Message> messages = new LinkedList();
     
-    public RSSFeed(URI uri) {
+    public RSSFeed(URI uri, Memory m) {
         super();
 
         this.uri = uri;
 
         updateFeed();
+
+        for (Message x : getMessages()) {
+            m.addVertex(x);
+        }
     }
 
     public URI getURI() {
@@ -65,7 +70,7 @@ public class RSSFeed {
                 final String desc = s.getDescription().getValue();
 
 
-                messages.add(new Message(title, desc, s.getUri(), null));
+                messages.add(new Message(title, desc, s.getUri()));
 
 //                add(new Found() {
 //
@@ -117,4 +122,6 @@ public class RSSFeed {
     public String getSummary() {
         return summary;
     }
+
+
 }

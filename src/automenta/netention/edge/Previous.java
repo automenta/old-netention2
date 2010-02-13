@@ -1,10 +1,10 @@
 package automenta.netention.edge;
 
 /** points in the direction of the next in a sequence */
-public final class Next {
+public final class Previous {
 
     @Override public String toString() {
-        return "next";
+        return "prev";
     }
 
 }

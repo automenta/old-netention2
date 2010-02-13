@@ -107,10 +107,26 @@ abstract public class HTMLCrawlPanel extends JPanel {
         }
 
         self.run(new Action("Loading " + urls) {
+
             public Object call() throws Exception {
-                for (String u : fetchedURLS) {
+                for (final String u : fetchedURLS) {
+//                    new HTML(self, graph, u);
+//                    System.out.println("loaded: " + u);
+//                    refresh();
+
                     try {
-                        new HTML(self, graph, u);
+                        self.run(new Action("Loading " + u) {
+                            public Object call() throws Exception {
+                                return new HTML(self, graph, u);
+                            }
+                        }, new Async() {
+                            public void onFinished(Object result) {
+                                System.out.println("loaded: " + result);
+                                refresh();
+                            }
+                            public void onError(Exception e) {
+                            }
+                        });
                     } catch (Exception e) {
                     }
                 }

@@ -135,7 +135,7 @@ public class PageRankPanel extends JPanel {
         pr.setMaxIterations(getMaxIterations());
         pr.acceptDisconnectedGraph(true);
         pr.initialize();
-        pr.step();
+        pr.evaluate();
 
         Graph subGraph = new VertexPredicateFilter(new Predicate() {
             public boolean evaluate(Object o) {

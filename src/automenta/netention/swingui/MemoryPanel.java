@@ -31,7 +31,7 @@ public class MemoryPanel extends JPanel implements Runnable {
     boolean running = true;
     long updatePeriodMS = 500;
 
-    MemoryPanel(Self self) {
+    public MemoryPanel(Self self) {
         super();
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 

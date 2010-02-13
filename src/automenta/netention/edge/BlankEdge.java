@@ -6,7 +6,7 @@
 package automenta.netention.edge;
 
 /** represents an anonymous, blank, or empty association (graph edge) */
-public class BlankEdge {
+public final class BlankEdge {
 
     @Override
     public String toString() {

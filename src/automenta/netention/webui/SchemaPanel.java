@@ -106,7 +106,7 @@ public class SchemaPanel extends Panel {
 
             //add inherited properties
             Column ip = new Column();
-            for (String pr : p.getInheritedProperties()) {
+            for (String pr : schema.getInheritedPatterns(p)) {
                 ip.add(new SchemaPropertyPanel(pr));
             }
             c.add(ip);

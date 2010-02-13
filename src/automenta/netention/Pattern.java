@@ -15,7 +15,7 @@ import automenta.netention.value.real.TimePointVar;
 import automenta.netention.value.string.StringVar;
 
 /** analgous to "part" of a RDF/Java "Class" */
-abstract public class Pattern extends Node {
+public class Pattern extends Node {
 
 	private List<String> ext = new LinkedList();
 	private List<String> props = new LinkedList();
@@ -130,8 +130,6 @@ abstract public class Pattern extends Node {
 		//return "{ " + getID() + " (" + getName() + ") " + " <" + Arrays.asList(getExtends()) + "> [" + getInheritedProperties() + "] }";
         return getName();
 	}
-
-	@Deprecated abstract public Collection<String> getInheritedProperties();
 
 	public void setDescription(String patternDesc) {
 		this.desc = patternDesc;		

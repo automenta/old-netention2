@@ -16,21 +16,23 @@ import java.util.Set;
 /** schema/ontology */
 public class Schema {
 
-	private Map<String, Pattern> patterns = new HashMap();
-	private Map<String, Property> properties = new HashMap();
+    private Map<String, Pattern> patterns = new HashMap();
+    private Map<String, Property> properties = new HashMap();
 
-	public Map<String, Pattern> getPatterns() {
-		return patterns;
-	}
+    public Map<String, Pattern> getPatterns() {
+        return patterns;
+    }
 
     public Collection<Pattern> getRootPatterns() {
         List<Pattern> lp = new LinkedList();
         for (Pattern p : patterns.values()) {
-            if (p.getExtends().length == 0)
+            if (p.getExtends().length == 0) {
                 lp.add(p);
+            }
         }
         return lp;
     }
+
     public Collection<Pattern> getChildren(Pattern p) {
         Set<Pattern> sp = new HashSet();
         for (Pattern v : patterns.values()) {
@@ -42,58 +44,49 @@ public class Schema {
 
         return sp;
     }
-	
-	public Map<String, Property> getProperties() {
-		return properties;
-	}
+
+    public Map<String, Property> getProperties() {
+        return properties;
+    }
 
     public Property getProperty(String id) {
         return properties.get(id);
     }
 
-	public void reset() {
-		patterns.clear();
-		properties.clear();
-	}
+    public void reset() {
+        patterns.clear();
+        properties.clear();
+    }
 
+    public Pattern newPattern(final String id, String name, String... extendIDs) {
+        Pattern p = new Pattern(id, name, extendIDs);
 
-	public Pattern newPattern(final String id, String name, String... extendIDs) {
-		Pattern p = new Pattern(id, name, extendIDs) {
-			@Override public Collection<String> getInheritedProperties() {
-				return Schema.this.getProperties(id);
-			}
-//			@Override
-//			public Schema getSchema() {
-//				return DefaultSchema.this;
-//			}
+        getPatterns().put(id, p);
+        return p;
+    }
 
-		};
+    public void addProperty(Property p) {
+        properties.put(p.getID(), p);
+    }
 
-		getPatterns().put(id, p);
-		return p;
-	}
+    public Collection<String> getProperties(String patternID) {
+        Set<String> m = new HashSet();
 
-	public void addProperty(Property p) {
-		properties.put(p.getID(), p);
-	}
+        for (String v : getPattern(patternID).getDefinedProperties()) {
+            m.add(v);
+        }
+        for (String p : getPattern(patternID).getExtends()) {
+            for (String v : getProperties(p)) {
+                m.add(v);
+            }
+        }
 
+        return m;
+    }
 
-	public Collection<String> getProperties(String patternID) {
-		Set<String> m = new HashSet();
-
-		for (String v : getPattern(patternID).getDefinedProperties()) {
-			m.add(v);
-		}
-		for (String p : getPattern(patternID).getExtends()) {
-			for (String v : getProperties(p)) {
-				m.add(v);
-			}
-		}
-
-		return m;
-	}
-
-	public Pattern getPattern(String patternID) { return getPatterns().get(patternID); }
+    public Pattern getPattern(String patternID) {
+        return getPatterns().get(patternID);
+    }
 
     public List<Pattern> getPatterns(Detail d) {
         ArrayList<Pattern> al = new ArrayList(d.getPatterns().size());
@@ -103,32 +96,26 @@ public class Schema {
         return al;
     }
 
+    public Iterable<String> getInheritedPatterns(Pattern p) {
+        return getProperties(p.getID());
+    }
 
-
-
-
-
-
-
-
-	//	public void include(Part p) {
-	//		for (Part x : p.getParts()) {
-	//			Pattern pt = getPatterns(p);
-	//
-	//			for (Variable f : p.getVariables()) {
-	//				pt.include(f);
-	//			}
-	//		}
-	//	}
-	//
-	//	private Pattern getType(String t) {
-	//		Pattern p = types.get(t);
-	//		if (p == null) {
-	//			p = new DefaultPartType(t);
-	//			types.put(t, p);
-	//		}
-	//		return p;
-	//	}
-
-	
+    //	public void include(Part p) {
+    //		for (Part x : p.getParts()) {
+    //			Pattern pt = getPatterns(p);
+    //
+    //			for (Variable f : p.getVariables()) {
+    //				pt.include(f);
+    //			}
+    //		}
+    //	}
+    //
+    //	private Pattern getType(String t) {
+    //		Pattern p = types.get(t);
+    //		if (p == null) {
+    //			p = new DefaultPartType(t);
+    //			types.put(t, p);
+    //		}
+    //		return p;
+    //	}
 }
